@@ -181,5 +181,5 @@ Since global variables are not allowed in this project, a good idea for storing 
 typedef struct s_data{
 pthread_mutex_t *mutex;
 int *data;
-}
+} t_data;
 ```
