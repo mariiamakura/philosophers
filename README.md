@@ -183,3 +183,9 @@ pthread_mutex_t *mutex;
 int *data;
 } t_data;
 ```
+
+compile the program with flag -fsanitize=thread and then run it to see whether you have data racing
+```
+cc -fsanitize=thread you_file.c
+./a.out
+```
