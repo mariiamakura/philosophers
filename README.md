@@ -73,7 +73,7 @@ On  success,  pthread_detach() returns 0; on error, it returns an error number.
 !! pthread_join() blocks the calling thread until the specified thread completes and allows retrieving the exit status of the joined thread.
 !! pthread_detach() marks a thread as detached, allowing it to clean up its resources independently upon completion, without the need for another thread to join it.
 
-## prevent the thread from using data while the other one is not finished
+## data racing or how to prevent the thread from using data while the other one is not finished
 
 ```
 #include <stdio.h>
