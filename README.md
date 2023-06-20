@@ -196,8 +196,8 @@ what to do if there is odd numbers of philosophers?
 well, we can try another way around: 
 - give every folk a number (index)
 - every philosopher ties to get the folk with the least index (let's say there are 5 folks and 5 philosopher, so the 5th and 1st philosophers will try to get folk #1 but only one will have it while the second one will still wait for it). This is guarantees that there will be no deadlock when everyone tries to have the folk on the right of left and guarantees that 1 folk is free, so someone will eat!
+- make a delay for philosophers to pick up folks (for even or add philosophers for example).
 - philosophers put on the table first the folk with the larger index, then with smaler. 
-- make a delay for philosophers to pick up folks
 
 ## standard output
 standard output should be protected with mutex and each philosopher will lock and unlock when they print something.
