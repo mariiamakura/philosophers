@@ -75,6 +75,8 @@ On  success,  pthread_detach() returns 0; on error, it returns an error number.
 
 ## data racing or how to prevent the thread from using data while the other one is not finished
 
+it's a good practice to protect your variable with the mutex if one or more threads can change it. If threads only read data, protection is not mandatory.
+
 ```
 #include <stdio.h>
 #include <unistd.h>
