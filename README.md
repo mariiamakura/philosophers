@@ -72,3 +72,60 @@ On  success,  pthread_detach() returns 0; on error, it returns an error number.
 
 !! pthread_join() blocks the calling thread until the specified thread completes and allows retrieving the exit status of the joined thread.
 !! pthread_detach() marks a thread as detached, allowing it to clean up its resources independently upon completion, without the need for another thread to join it.
+
+## prevent the thread from using data while the other one is not finished
+
+```
+#include <stdio.h>
+#include <unistd.h>
+#include <pthread.h>
+
+//mutex is sort of the lock
+
+int mails = 0;
+pthread_mutex_t mutex;
+
+void* routine() {
+    for (int i = 0; i < 1000000; i++) {
+        pthread_mutex_lock(&mutex);
+        mails++;
+        pthread_mutex_unlock(&mutex);
+    }
+    return (NULL);
+}
+
+int main(int argc, char* argv[]) {
+    pthread_t p1, p2, p3, p4;
+    pthread_mutex_init(&mutex, NULL); //the lock
+
+    //threads can be executed before one is fully finished
+    if (pthread_create(&p1, NULL, &routine, NULL) != 0) {
+        return 1;
+    }
+    if (pthread_create(&p2, NULL, &routine, NULL) != 0) {
+        return 2;
+    }
+    if (pthread_join(p1, NULL) != 0) {
+        return 3;
+    }
+    if (pthread_join(p2, NULL) != 0) {
+        return 4;
+    }
+    pthread_mutex_destroy(&mutex);
+    printf("Number of mails: %d\n", mails);
+    return 0;
+}
+
+```
+
+too use mutex:
+```
+pthread_mutex_t mutex;
+pthread_mutex_init(&mutex, NULL); - initialize it
+pthread_mutex_lock(&mutex);
+pthread_mutex_unlock(&mutex); //lock and unlock
+pthread_mutex_destroy(&mutex); //destroy
+
+```
+
+
