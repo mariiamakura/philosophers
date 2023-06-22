@@ -2,8 +2,9 @@ COLOUR_GREEN=\033[0;32m
 COLOUR_END=\033[0;0m
 
 NAME = philo
+NAME_DEBUG = philo_deb
 CC = cc
-CFLAGS = -Wall -Wextra -Werror 
+CFLAGS = -Wall -Wextra -Werror -fsanitize=thread
 
 HEADER = -I ./include -I ./philo.h/include
 
@@ -36,6 +37,7 @@ fclean: clean
 
 run: all
 	@./$(NAME) $(ARGS)
+
 
 re: fclean all
 
