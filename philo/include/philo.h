@@ -7,4 +7,10 @@
 # include <sys/time.h>
 # include <pthread.h>
 
+//error_handle.c
+void	error_print();
+int		argm_parse(int ac, char **av);
+int		is_digit(char *str);
+
+
 #endif
