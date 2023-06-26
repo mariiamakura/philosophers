@@ -11,9 +11,9 @@
 typedef struct s_philo
 {
     int index; //starts from 1
-    uint64_t last_eat;
-    u_int64_t time_to_eat; //how long philo is eating
-    u_int64_t time_to_sleep; //how long philo is sleeping
+    long long last_eat;
+    long long time_to_eat; //how long philo is eating
+    long long time_to_sleep; //how long philo is sleeping
     int in_the_queue; //starts with 1 - everyone in the queue
     int lunch_num; //how many times philo ate
 
@@ -24,10 +24,10 @@ typedef struct s_queue
     t_philo *philo;
     int dead_philo; //in the beginning 0 - everyone is alive
     int philo_total_num;
-    u_int64_t time_to_died; //after eating how fast philo die
-    u_int64_t each_philo_eat; //if specified - each philo eats that num of time - then program finished
-    u_int64_t time_to_eat; //how long philo is eating
-    u_int64_t time_to_sleep; //how long philo is sleeping
+    long long time_to_died; //after eating how fast philo die
+    int each_philo_eat; //if specified - each philo eats that num of time - then program finished
+    long long time_to_eat; //how long philo is eating
+    long long time_to_sleep; //how long philo is sleeping
     pthread_mutex_t	queue_lock;
     pthread_mutex_t write_lock;
 } t_queue;
@@ -41,7 +41,6 @@ int		is_digit(char *str);
 long long	ft_atoi(const char *str);
 
 //init_data.c
-int init(int ac, char **av, t_queue *queue);
 int init_data(int ac, char **av, t_queue *queue);
 void destroy(t_queue *queue);
 
