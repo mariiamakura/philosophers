@@ -14,18 +14,22 @@
 
 int	main(int ac, char **av)
 {
+    t_queue queue;
+
 	if (ac == 5 || ac == 6) 
 	{
-		if (!(argm_parse(ac, av)))
+		if (!(argm_parse(ac, av)) || !init(ac, av, &queue))
 		{
 			error_print();
 			return (-1);
 		}
-		//printf("Hello %s\n", av[1]);
 	}
 	else
 	{
 		error_print();
+        return (-1);
 	}
-	return (-1);
+    destroy(&queue);
 }
+
+//run like this > MallocNanoZone=0 ./a.out
