@@ -5,7 +5,7 @@ void	error_print()
 	write(2, "Error occured\n", 15);
 }
 
-int	is_digit(char *str)
+BOOL	is_digit(char *str)
 {
 	int	i;
 
@@ -14,23 +14,50 @@ int	is_digit(char *str)
 	{
 		if (str[i] < '0' || str[i] > '9')
 		{
-			return (0);
+			return (FALSE);
 		}
 		i++;
 	}
-	return (1);
+	return (TRUE);
 }
 
-int	argm_parse(int ac, char **av)
+BOOL philo_num_check(char *av)
+{
+    int philo_num;
+
+    philo_num = (int) ft_atoi(av);
+    if (philo_num <= 0 || philo_num > 200)
+        return (FALSE);
+    return (TRUE);
+}
+
+BOOL is_int(char *av)
+{
+    long long value;
+
+    value = ft_atoi(av);
+    if (value < 0 || value > INT_MAX)
+        return (FALSE);
+    return (TRUE);
+}
+
+BOOL argm_parse(int ac, char **av)
 {
 	int	i;
 
-	i = 1;
-	while (i < ac)
+    i = 2;
+
+    if (ac != 5 && ac != 6)
+        return (FALSE);
+    if (!philo_num_check(av[1]))
+        return (FALSE);
+    while (i < ac)
 	{
-		if (!(is_digit(av[i])))
-			return (0);
-		i++;
+        if (!(is_digit(av[i])))
+            return (FALSE);
+		if (!(is_int(av[i])))
+            return (FALSE);
+        i++;
 	}
-	return (1);
+	return (TRUE);
 }

@@ -11,37 +11,67 @@
 /* ************************************************************************** */
 
 #include "../include/philo.h"
+#include "../include/init.h"
 
-
-void print_struct(t_queue *queue)
+void print_rules(t_rules *rules)
 {
-    printf("%i\n", queue->philo_total_num);
-    printf("%lld\n", queue->time_to_died);
-    printf("%lld\n", queue->time_to_eat);
-    printf("%lld\n", queue->time_to_sleep);
-    printf("%i\n", queue->each_philo_eat);
+    printf("time to die: %i\n", rules->time_to_died);
+    printf("time_to_eat: %i\n", rules->time_to_eat);
+    printf("time_to_sleep: %i\n", rules->time_to_sleep);
+    printf("req_eat: %i\n", rules->req_eat);
 }
 
-int	main(int ac, char **av)
+void print_data(t_data *data)
 {
-    t_queue *queue;
+    t_philo *philo;
+    int i;
 
-	if (ac == 5 || ac == 6) 
-	{
-		queue = (t_queue *)malloc(sizeof(t_queue));
-		if (!(argm_parse(ac, av)) || init_data(ac, av, queue) == NULL)
-		{
-			error_print();
-			return (-1);
-		}
-        print_struct(queue);
+    i = 0;
+
+    printf("philo_num: %i\n", data->philo_num);
+    printf("is_stop: %i\n", data->is_stop);
+    while (i < data->philo_num)
+    {
+        philo = &data->philos[i];
+        printf("i: %i\n", i);
+        printf("philo index: %i\n", philo->index);
+        printf("philo in_queue: %i\n", philo->in_queue);
+        printf("philo last_eat: %i\n", philo->last_eat);
+        printf("philo lunch_num: %i\n", philo->lunch_num);
+        i++;
     }
-	else
-	{
-		error_print();
+}
+
+int main(int ac, char **av)
+{
+    t_data *data;
+    t_rules *rules;
+
+    if (!argm_parse(ac, av))
+    {
+        error_print();
         return (-1);
-	}
-    destroy(queue);
+    }
+    rules = init_rules(ac, av);
+    if (rules == NULL)
+    {
+        error_print();
+        return (-1);
+    }
+    print_rules(rules);
+    data = init_data(av);
+    if (data == NULL)
+    {
+        free_rules(rules);
+        error_print();
+        return (-1);
+    }
+    print_data(data);
+
+    free_rules(rules); // write it!
+    free_data(data); // write it!
+    return(0);
+
 }
 
 
