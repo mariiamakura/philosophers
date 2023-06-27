@@ -6,7 +6,7 @@
 /*   By: mparasku <mparasku@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/21 16:20:50 by mparasku          #+#    #+#             */
-/*   Updated: 2023/06/22 17:27:39 by mparasku         ###   ########.fr       */
+/*   Updated: 2023/06/27 15:03:32 by mparasku         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,25 +24,24 @@ void print_struct(t_queue *queue)
 
 int	main(int ac, char **av)
 {
-    t_queue queue;
+    t_queue *queue;
 
 	if (ac == 5 || ac == 6) 
 	{
-		if (!(argm_parse(ac, av)) || !init_data(ac, av, &queue))
+		queue = (t_queue *)malloc(sizeof(t_queue));
+		if (!(argm_parse(ac, av)) || init_data(ac, av, queue) == NULL)
 		{
 			error_print();
 			return (-1);
 		}
-        print_struct(&queue);
+        print_struct(queue);
     }
 	else
 	{
 		error_print();
         return (-1);
 	}
-
-
-    destroy(&queue);
+    destroy(queue);
 }
 
 

@@ -7,6 +7,7 @@
 # include <sys/time.h>
 # include <pthread.h>
 # include <stdlib.h>
+#include <limits.h>
 
 typedef struct s_philo
 {
@@ -41,7 +42,7 @@ int		is_digit(char *str);
 long long	ft_atoi(const char *str);
 
 //init_data.c
-int init_data(int ac, char **av, t_queue *queue);
+t_queue *init_data(int ac, char **av, t_queue *queue);
 void destroy(t_queue *queue);
 
 
