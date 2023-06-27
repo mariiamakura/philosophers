@@ -7,43 +7,60 @@
 # include <sys/time.h>
 # include <pthread.h>
 # include <stdlib.h>
-#include <limits.h>
+# include <limits.h>
+# include "linked_list.h"
+# include "constants.h"
 
 typedef struct s_philo
 {
     int index; //starts from 1
-    long long last_eat;
-    long long time_to_eat; //how long philo is eating
-    long long time_to_sleep; //how long philo is sleeping
-    int in_the_queue; //starts with 1 - everyone in the queue
+    BOOL in_queue; //whether philo is in queue
+    int last_eat;
     int lunch_num; //how many times philo ate
-
 } t_philo;
 
-typedef struct s_queue
+//data for queue
+typedef struct s_data
 {
-    t_philo *philo;
-    int dead_philo; //in the beginning 0 - everyone is alive
-    int philo_total_num;
-    long long time_to_died; //after eating how fast philo die
-    int each_philo_eat; //if specified - each philo eats that num of time - then program finished
-    long long time_to_eat; //how long philo is eating
-    long long time_to_sleep; //how long philo is sleeping
-    pthread_mutex_t	queue_lock;
-    pthread_mutex_t write_lock;
-} t_queue;
+    pthread_mutex_t mutex;
+
+    BOOL is_stop; // true so far while no one died or ate enough
+
+    int philo_num;
+    t_philo *philos;
+
+    t_node *queue;
+} t_data;
+
+typedef struct s_rules
+{
+    int time_to_died; //after eating how fast philo die
+    int time_to_eat; //how long philo is eating
+    int time_to_sleep; //how long philo is sleeping
+    int req_eat; //if specified - each philo eats that num of time - then program finished
+} t_rules;
 
 //error_handle.c
-void	error_print();
-int		argm_parse(int ac, char **av);
-int		is_digit(char *str);
+void error_print();
+BOOL argm_parse(int ac, char **av);
+BOOL is_digit(char *str);
+BOOL philo_num_check(char *av);
+BOOL is_int(char *av);
+
+//main functions
+void waiter_main(t_data *data, t_rules *rules);
+    //waiter inside fun
+    void send_to_eat(t_data *data);
+    void check_rules(t_rules *rules);
+
+void philo_main(t_data *data, int philo_num);
+    //philo inside fun
+    void wait_for_eat(t_data *data, int philo_num);
+    void eat(t_data *data, int philo_num);
+    void return_to_queue(t_data *data, int philo_num);
+
 
 //utils.c
 long long	ft_atoi(const char *str);
-
-//init_data.c
-t_queue *init_data(int ac, char **av, t_queue *queue);
-void destroy(t_queue *queue);
-
 
 #endif
