@@ -26,7 +26,7 @@ BOOL philo_num_check(char *av)
     int philo_num;
 
     philo_num = (int) ft_atoi(av);
-    if (philo_num <= 0 || philo_num > 200)
+    if (philo_num <= 1 || philo_num > 200)
         return (FALSE);
     return (TRUE);
 }

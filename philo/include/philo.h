@@ -1,5 +1,8 @@
 #ifndef PHILO_H
 # define PHILO_H
+# define BOOL int
+# define TRUE 1
+# define FALSE 0
 
 # include <string.h>
 # include <stdio.h>
@@ -8,12 +11,17 @@
 # include <pthread.h>
 # include <stdlib.h>
 # include <limits.h>
-# include "linked_list.h"
-# include "constants.h"
+
+typedef struct s_node
+{
+    int data;
+    struct s_node *next;
+} t_node;
+
 
 typedef struct s_philo
 {
-    int index; //starts from 1
+    int index; //starts from 0
     BOOL in_queue; //whether philo is in queue
     int last_eat;
     int lunch_num; //how many times philo ate
@@ -62,5 +70,15 @@ void philo_main(t_data *data, int philo_num);
 
 //utils.c
 long long	ft_atoi(const char *str);
+
+//free.c
+void free_rules(t_rules *rules);
+void free_data(t_data *data);
+void free_linked_list(t_node *node);
+
+//init.c
+t_philo *init_philo(int philo_num);
+t_data *init_data(char **av);
+t_rules *init_rules(int ac, char **av);
 
 #endif
