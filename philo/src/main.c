@@ -6,7 +6,7 @@
 /*   By: mparasku <mparasku@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/21 16:20:50 by mparasku          #+#    #+#             */
-/*   Updated: 2023/06/27 15:03:32 by mparasku         ###   ########.fr       */
+/*   Updated: 2023/06/28 14:46:56 by mparasku         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,18 @@ void print_data(t_data *data)
     }
 }
 
+void print_queue(t_data *data)
+{
+	t_node *node = data->queue;
+
+	printf("The queue: ");
+	while (node != NULL)
+	{
+		printf("philo num %i\n", node->data);
+		node = node->next;
+	}
+}
+
 int main(int ac, char **av)
 {
     t_data *data;
@@ -66,13 +78,14 @@ int main(int ac, char **av)
         error_print();
         return (-1);
     }
-    print_data(data);
+    //print_data(data);
+	print_queue(data);
 
-    free_rules(rules); // write it!
-    free_data(data); // write it!
+    free_rules(rules);
+    free_data(data);
     return(0);
 
 }
 
 
-//run like this > MallocNanoZone=0 ./a.out
+//run like this on mac > MallocNanoZone=0 ./a.out

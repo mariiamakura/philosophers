@@ -1,4 +1,4 @@
-#include "../include/init.h"
+#include "../include/philo.h"
 
 t_rules *init_rules(int ac, char **av)
 {
@@ -13,11 +13,6 @@ t_rules *init_rules(int ac, char **av)
     if (ac == 6)
         rules->req_eat = (int) ft_atoi(av[5]);
     return (rules);
-}
-
-void free_rules(t_rules *rules)
-{
-    free(rules);
 }
 
 t_philo *init_philo(int philo_num)
@@ -100,21 +95,15 @@ t_data *init_data(char **av)
     queue = init_queue(philo_num);
     if (queue == NULL)
     {
-        free(data);
         free(philos);
+		free(data);
         return (NULL);
     }
-
     data->is_stop = FALSE;
     data->philo_num = philo_num;
     data->philos = philos;
     data->queue = queue;
-
+	pthread_mutex_init(&data->mutex, NULL);
     return data;
 }
 
-void free_data(t_data *data)
-{
-    free_linked_list(data->queue);
-    free(data->philos);
-}
