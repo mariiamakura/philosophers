@@ -83,27 +83,21 @@ t_data *init_data(char **av)
     philo_num = (int) ft_atoi(av[1]);
     data = (t_data *) malloc(sizeof(t_data));
     if (data == NULL)
-    {
         return (NULL);
-    }
     philos = init_philo(philo_num);
     if (philos == NULL)
-    {
-        free(data);
-        return (NULL);
-    }
+        return (free_data(data));
     queue = init_queue(philo_num);
     if (queue == NULL)
     {
         free(philos);
-		free(data);
-        return (NULL);
+        return (free_data(data));
     }
     data->is_stop = FALSE;
     data->philo_num = philo_num;
     data->philos = philos;
     data->queue = queue;
 	pthread_mutex_init(&data->mutex, NULL);
-    return data;
+    return (data);
 }
 

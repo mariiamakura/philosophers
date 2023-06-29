@@ -3,6 +3,7 @@
 void	error_print()
 {
 	write(2, "Error occured\n", 15);
+    exit(-1);
 }
 
 BOOL	is_digit(char *str)

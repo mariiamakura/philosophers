@@ -73,12 +73,16 @@ long long	ft_atoi(const char *str);
 
 //free.c
 void free_rules(t_rules *rules);
-void free_data(t_data *data);
+void *free_data(t_data *data);
 void free_linked_list(t_node *node);
 
 //init.c
 t_philo *init_philo(int philo_num);
 t_data *init_data(char **av);
 t_rules *init_rules(int ac, char **av);
+
+//threads.c
+BOOL thread_creating(t_data *data);
+void *routine(void *data_ptr);
 
 #endif

@@ -11,7 +11,6 @@
 /* ************************************************************************** */
 
 #include "../include/philo.h"
-#include "../include/init.h"
 
 void print_rules(t_rules *rules)
 {
@@ -54,38 +53,37 @@ void print_queue(t_data *data)
 	}
 }
 
+
+
 int main(int ac, char **av)
 {
     t_data *data;
     t_rules *rules;
 
     if (!argm_parse(ac, av))
-    {
         error_print();
-        return (-1);
-    }
     rules = init_rules(ac, av);
     if (rules == NULL)
-    {
-        error_print();
-        return (-1);
-    }
-    print_rules(rules);
+        error_print();;
     data = init_data(av);
     if (data == NULL)
     {
         free_rules(rules);
         error_print();
-        return (-1);
     }
-    //print_data(data);
-	print_queue(data);
+    if (!thread_creating(data))
+    {
+        free_rules(rules);
+        free_data(data);
+        error_print();
+    }
 
+    //
     free_rules(rules);
     free_data(data);
     return(0);
-
 }
 
 
 //run like this on mac > MallocNanoZone=0 ./a.out
+//flag  -fsanitize=thread
