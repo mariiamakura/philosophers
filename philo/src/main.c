@@ -6,7 +6,7 @@
 /*   By: mparasku <mparasku@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/21 16:20:50 by mparasku          #+#    #+#             */
-/*   Updated: 2023/06/28 14:46:56 by mparasku         ###   ########.fr       */
+/*   Updated: 2023/06/29 14:55:30 by mparasku         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,7 @@ int main(int ac, char **av)
 {
     t_data *data;
     t_rules *rules;
+	t_threads *threads_data;
 
     if (!argm_parse(ac, av))
         error_print();
@@ -71,10 +72,18 @@ int main(int ac, char **av)
         free_rules(rules);
         error_print();
     }
-    if (!thread_creating(data))
+	threads_data = init_threads_data(data, rules);
+	if (threads_data == NULL)
+	{
+		free_rules(rules);
+		free_data(data);
+		error_print();
+	}
+    if (!thread_creating(threads_data))
     {
         free_rules(rules);
         free_data(data);
+		free(threads_data);
         error_print();
     }
 

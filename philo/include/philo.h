@@ -18,7 +18,6 @@ typedef struct s_node
     struct s_node *next;
 } t_node;
 
-
 typedef struct s_philo
 {
     int index; //starts from 0
@@ -30,8 +29,6 @@ typedef struct s_philo
 //data for queue
 typedef struct s_data
 {
-    pthread_mutex_t mutex;
-
     BOOL is_stop; // true so far while no one died or ate enough
 
     int philo_num;
@@ -47,6 +44,15 @@ typedef struct s_rules
     int time_to_sleep; //how long philo is sleeping
     int req_eat; //if specified - each philo eats that num of time - then program finished
 } t_rules;
+
+typedef struct s_threads
+{
+	pthread_mutex_t mutex;
+	t_data *data;
+	t_rules *rules;
+	int index;
+	BOOL thread_stop;
+} t_threads;
 
 //error_handle.c
 void error_print();
@@ -80,9 +86,10 @@ void free_linked_list(t_node *node);
 t_philo *init_philo(int philo_num);
 t_data *init_data(char **av);
 t_rules *init_rules(int ac, char **av);
+t_threads *init_threads_data(t_data *data, t_rules *rules);
 
 //threads.c
-BOOL thread_creating(t_data *data);
+BOOL thread_creating(t_threads *thread_data);
 void *routine(void *data_ptr);
 
 #endif
