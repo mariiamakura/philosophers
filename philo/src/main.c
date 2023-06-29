@@ -6,7 +6,7 @@
 /*   By: mparasku <mparasku@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/21 16:20:50 by mparasku          #+#    #+#             */
-/*   Updated: 2023/06/29 15:37:13 by mparasku         ###   ########.fr       */
+/*   Updated: 2023/06/29 16:20:00 by mparasku         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ void print_data(t_data *data)
     i = 0;
 
     printf("philo_num: %i\n", data->philo_num);
-    printf("is_stop: %i\n", data->is_stop);
+    //printf("is_stop: %i\n", data->is_stop);
     while (i < data->philo_num)
     {
         philo = &data->philos[i];

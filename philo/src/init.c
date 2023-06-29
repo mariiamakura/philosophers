@@ -93,7 +93,6 @@ t_data *init_data(char **av)
         free(philos);
         return (free_data(data));
     }
-    data->is_stop = FALSE;
     data->philo_num = philo_num;
     data->philos = philos;
     data->queue = queue;
