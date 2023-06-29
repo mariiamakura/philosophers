@@ -106,12 +106,12 @@ t_threads *init_threads_data(t_data *data, t_rules *rules)
 	pthread_mutex_t mutex;
 
 	threads_data = (t_threads *)malloc(sizeof(t_threads));
+	pthread_mutex_init(&mutex, NULL);
+	threads_data->mutex = mutex;
 	if (threads_data == NULL)
 		return (NULL);
 	threads_data->data = data;
 	threads_data->rules = rules;
-	pthread_mutex_init(&mutex, NULL);
-	threads_data->mutex = mutex;
 	return (threads_data);
 }
 
