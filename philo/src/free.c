@@ -26,9 +26,10 @@ void free_rules(t_rules *rules)
     free(rules);
 }
 
-void free_data(t_data *data)
+void *free_data(t_data *data)
 {
     free_linked_list(data->queue);
     free(data->philos);
 	free(data);
+    return (NULL);
 }
