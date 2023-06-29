@@ -89,7 +89,7 @@ t_rules *init_rules(int ac, char **av);
 t_threads *init_threads_data(t_data *data, t_rules *rules);
 
 //threads.c
-BOOL thread_creating(t_threads *thread_data);
+BOOL thread_creating(t_threads *threads_data);
 void *routine(void *data_ptr);
 
 #endif
