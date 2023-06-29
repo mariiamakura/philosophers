@@ -6,7 +6,7 @@
 /*   By: mparasku <mparasku@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/21 16:20:50 by mparasku          #+#    #+#             */
-/*   Updated: 2023/06/29 14:55:30 by mparasku         ###   ########.fr       */
+/*   Updated: 2023/06/29 15:07:35 by mparasku         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,6 +83,7 @@ int main(int ac, char **av)
     {
         free_rules(rules);
         free_data(data);
+		pthread_mutex_destroy(&threads_data->mutex);
 		free(threads_data);
         error_print();
     }
