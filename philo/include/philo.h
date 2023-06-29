@@ -29,8 +29,6 @@ typedef struct s_philo
 //data for queue
 typedef struct s_data
 {
-    BOOL is_stop; // true so far while no one died or ate enough
-
     int philo_num;
     t_philo *philos;
 
@@ -51,7 +49,7 @@ typedef struct s_threads
 	t_data *data;
 	t_rules *rules;
 	int index;
-	BOOL thread_stop;
+	BOOL is_stop; // false so far while no one died or ate enough
 } t_threads;
 
 //error_handle.c
@@ -91,5 +89,8 @@ t_threads *init_threads_data(t_data *data, t_rules *rules);
 //threads.c
 BOOL thread_creating(t_threads *threads_data);
 void *routine(void *data_ptr);
+void *supervisor_routine(void *data_ptr);
+BOOL create_supervisor(t_threads *threads_data, pthread_t *threads);
+
 
 #endif
