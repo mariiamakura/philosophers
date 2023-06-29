@@ -97,7 +97,21 @@ t_data *init_data(char **av)
     data->philo_num = philo_num;
     data->philos = philos;
     data->queue = queue;
-	pthread_mutex_init(&data->mutex, NULL);
     return (data);
+}
+
+t_threads *init_threads_data(t_data *data, t_rules *rules)
+{
+	t_threads *threads_data;
+	//pthread_mutex_t mutex;
+
+	threads_data = (t_threads *)malloc(sizeof(t_threads));
+	if (threads_data == NULL)
+		return (NULL);
+	threads_data->data = data;
+	threads_data->rules = rules;
+	//pthread_mutex_init(&mutex, NULL);
+	//threads_data->mutex = mutex;
+	return (threads_data);
 }
 
