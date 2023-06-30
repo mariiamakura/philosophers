@@ -6,7 +6,7 @@
 /*   By: mparasku <mparasku@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/21 16:20:50 by mparasku          #+#    #+#             */
-/*   Updated: 2023/06/29 16:20:00 by mparasku         ###   ########.fr       */
+/*   Updated: 2023/06/30 16:39:31 by mparasku         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ void print_queue(t_data *data)
 {
 	t_node *node = data->queue;
 
-	printf("The queue: ");
+	printf("The queue: \n");
 	while (node != NULL)
 	{
 		printf("philo num %i\n", node->data);
