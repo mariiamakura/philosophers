@@ -111,6 +111,7 @@ t_threads *init_threads_data(t_data *data, t_rules *rules)
 		return (NULL);
 	threads_data->data = data;
 	threads_data->rules = rules;
-	return (threads_data);
+    threads_data->is_stop = FALSE;
+    return (threads_data);
 }
 

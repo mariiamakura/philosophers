@@ -7,8 +7,8 @@
 # include <string.h>
 # include <stdio.h>
 # include <unistd.h>
-# include <sys/time.h>
 # include <pthread.h>
+# include <sys/time.h>
 # include <stdlib.h>
 # include <limits.h>
 
@@ -88,9 +88,12 @@ t_threads *init_threads_data(t_data *data, t_rules *rules);
 
 //threads.c
 BOOL thread_creating(t_threads *threads_data);
-void *routine(void *data_ptr);
-void *supervisor_routine(void *data_ptr);
 BOOL create_supervisor(t_threads *threads_data, pthread_t *threads);
+
+//routines.c
+void *philo_routine(void *data_ptr);
+void *supervisor_routine(void *data_ptr);
+void free_threads(t_threads *threads_data, pthread_t *threads, int i);
 
 
 #endif
