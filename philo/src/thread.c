@@ -40,27 +40,27 @@ pthread_t *create_philos(t_threads *threads_data, pthread_t *threads)
 
 BOOL thread_creating(t_threads *threads_data)
 {
-	pthread_t *threads;
+
 	int i;
 
 	i = 0;
-	threads = (pthread_t *)malloc(sizeof(pthread_t) * (threads_data->data->philo_num + 1));
-	if (threads == NULL)
-		return (FALSE);
+	pthread_t *threads;	threads = (pthread_t *)malloc(sizeof(pthread_t) * (threads_data->data->philo_num + 1));
+    if (threads == NULL)
+	{
+        return (FALSE);
+	}
 	if (!create_supervisor(threads_data, threads))
 	{
 		free(threads);
 		return (FALSE);
 	}
     threads = create_philos(threads_data, threads);
-    if (threads == NULL)
-        return (FALSE);
 	while (i <= threads_data->data->philo_num)
 	{
 		if (pthread_join(threads[i], NULL) != 0)
-			return FALSE;
+			return (FALSE);
 		i++;
 	}
 	free(threads);
-	return TRUE;
+	return (TRUE);
 }
