@@ -10,7 +10,7 @@ BOOL create_supervisor(t_threads *threads_data, pthread_t *threads)
 void free_threads(t_threads *threads_data, pthread_t *threads, int i)
 {
     threads_data->is_stop = TRUE; // Set the stop flag to terminate other threads
-    while (--i > 0)
+    while (--i >= 0)
         if (pthread_join(threads[i], NULL) != 0)
             error_print();
     free(threads);
@@ -31,8 +31,9 @@ pthread_t *create_philos(t_threads *threads_data, pthread_t *threads)
             free_threads(threads_data, threads, i);
             return (NULL);
         }
+        usleep(100);
         i++;
-        usleep(100);  //without it threads will get the wrong index since they access data struct fast //maybe the deleting from queue by spervisor and cheking it will solve
+        //without it threads will get the wrong index since they access data struct fast //maybe the deleting from queue by spervisor and cheking it will solve
     }
     return (threads);
 }
