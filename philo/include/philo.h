@@ -74,6 +74,8 @@ void philo_main(t_data *data, int philo_num);
 
 //utils.c
 long long	ft_atoi(const char *str);
+void revome_node(t_node **head, int data);
+void add_back_note(t_node **head, int data);
 
 //free.c
 void free_rules(t_rules *rules);
@@ -94,6 +96,7 @@ BOOL create_supervisor(t_threads *threads_data, pthread_t *threads);
 void *philo_routine(void *data_ptr);
 void *supervisor_routine(void *data_ptr);
 void free_threads(t_threads *threads_data, pthread_t *threads, int i);
+int can_remove_index(t_threads *threads_data);
 
 
 #endif
