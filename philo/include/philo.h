@@ -98,5 +98,6 @@ void *supervisor_routine(void *data_ptr);
 void free_threads(t_threads *threads_data, pthread_t *threads, int i);
 int can_remove_index(t_threads *threads_data);
 
+void print_queue(t_data *data);
 
 #endif
