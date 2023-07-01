@@ -9,15 +9,16 @@ CFLAGS = -Wall -Wextra -Werror -fsanitize=thread
 HEADER = -I ./include -I ./philo.h/include
 
 SRC_DIR = src
-OBJ_DIR = build
+OBJ_DIR = build/objects
+TRG_DIR = build/targets
 SRC_FILES = $(shell find $(SRC_DIR) -name "*.c")
 OBJ_FILES = $(patsubst $(SRC_DIR)/%.c,$(OBJ_DIR)/%.o,$(SRC_FILES))
 
 all: $(NAME)
 
-$(NAME): $(OBJ_FILES)
+$(NAME): $(OBJ_FILES) $(TRG_DIR)
 	@echo "Building $(NAME) application"
-	@$(CC) $(CFLAGS) $(HEADER) -o $(NAME) $(OBJ_FILES)
+	@$(CC) $(CFLAGS) $(HEADER) -o $(TRG_DIR)/$(NAME) $(OBJ_FILES)
 	@echo "$(COLOUR_GREEN)BUILD SUCCESSFUL$(COLOUR_END)"
 
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c | $(OBJ_DIR)
@@ -27,16 +28,19 @@ $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c | $(OBJ_DIR)
 $(OBJ_DIR):
 	@mkdir -p $(OBJ_DIR)
 
+$(TRG_DIR):
+	@mkdir -p $(TRG_DIR)
+
 clean:
 	@echo "Cleaning C objects"
 	@rm -rf $(OBJ_DIR)
 
 fclean: clean
 	@echo "Cleaning $(NAME) application"
-	@rm -f $(NAME)
+	@rm -rf $(TRG_DIR)
 
 run: all
-	@./$(NAME) $(ARGS)
+	@./$(TRG_DIR)/$(NAME) $(ARGS)
 
 
 re: fclean all
