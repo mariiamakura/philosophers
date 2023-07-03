@@ -28,6 +28,7 @@ typedef struct s_philo
 	int				meal_times;
 	int				status;
 	int				eating;
+	int 			time_die;
 	t_rules			*rules;
 	pthread_mutex_t	lock;
 	pthread_mutex_t	*r_fork;
@@ -57,6 +58,7 @@ BOOL is_int(char *av);
 
 //prints.c
 void print_rules(t_data *data);
+void print_philo(t_data *data);
 
 //utils.c
 long long	ft_atoi(const char *str);
@@ -65,7 +67,8 @@ long long	ft_atoi(const char *str);
 t_data *init(t_data *data, char **av, int ac);
 t_data *init_rules(char **av, int ac, t_data *data);
 t_data *alloc_structs(t_data *data);
-t_data *alloc_forks(t_data *data);
+t_data *init_forks(t_data *data);
+t_data *init_philo(t_data *data);
 
 //freeing.c
 t_data *ft_error_exit(char *str, t_data *data, int flag);

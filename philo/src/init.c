@@ -6,7 +6,7 @@
 /*   By: mparasku <mparasku@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/03 14:23:06 by mparasku          #+#    #+#             */
-/*   Updated: 2023/07/03 17:35:08 by mparasku         ###   ########.fr       */
+/*   Updated: 2023/07/03 17:48:03 by mparasku         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ t_data *init_rules(char **av, int ac, t_data *data)
 	return (data);
 }
 
-t_data *alloc_forks(t_data *data)
+t_data *init_forks(t_data *data)
 {
 	int	i;
 
@@ -62,13 +62,33 @@ t_data *alloc_forks(t_data *data)
 		i++;
 	}
 	i = 0;
-	data->philos[0].r_fork = &data->forks[0];
-	data->philos[0].l_fork = &data->forks[data->rules->philo_num - 1];
+	data->philos[0].l_fork = &data->forks[0];
+	data->philos[0].r_fork = &data->forks[data->rules->philo_num - 1];
 	i = 1;
 	while (i < data->rules->philo_num)
 	{
-		data->philos[i].r_fork = &data->forks[i];
-		data->philos[i].l_fork = &data->forks[i - 1];
+		data->philos[i].l_fork = &data->forks[i];
+		data->philos[i].r_fork = &data->forks[i - 1];
+		i++;
+	}
+	return (data);
+}
+
+t_data *init_philo(t_data *data)
+{
+	int	i;
+
+	i = 0;
+	while (i < data->rules->philo_num)
+	{
+		data->philos[i].data = data;
+		data->philos[i].id = i + 1; //philos start from 1
+		data->philos[i].time_die = data->rules->time_die;
+		data->philos[i].meal_times = 0;
+		data->philos[i].eating = FALSE;
+		data->philos[i].status = 0;
+		if (pthread_mutex_init(&data->philos[i].lock, NULL) != 0)
+			return (NULL);
 		i++;
 	}
 	return (data);
@@ -82,8 +102,9 @@ t_data *init(t_data *data, char **av, int ac)
 	data = alloc_structs(data);
 	if (data == NULL)
 		return(ft_error_exit("Error alloc structs", data, 1));
-	data = alloc_forks(data);
+	data = init_forks(data);
+	data = init_philo(data);
 	if (data == NULL)
-		return(ft_error_exit("Error alloc mutex", data, 2));;
+		return(ft_error_exit("Error alloc mutex", data, 2));
 	return(data);
 }

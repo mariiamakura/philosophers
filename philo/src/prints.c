@@ -9,6 +9,12 @@ void print_rules(t_data *data)
     printf("req_eat: %i\n", data->rules->req_eat);
 }
 
+void print_philo(t_data *data)
+{
+	printf("philo id: %i\n", data->philos[0].id);
+	printf("philo times ate: %i\n", data->philos[0].meal_times); 
+}
+
 /* void print_data(t_data *data)
 {
     t_philo *philo;
