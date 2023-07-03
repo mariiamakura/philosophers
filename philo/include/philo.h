@@ -4,7 +4,6 @@
 # define TRUE 1
 # define FALSE 0
 
-# include <string.h>
 # include <stdio.h>
 # include <unistd.h>
 # include <pthread.h>
@@ -12,92 +11,63 @@
 # include <stdlib.h>
 # include <limits.h>
 
-typedef struct s_node
+typedef struct	s_rules
 {
-    int data;
-    struct s_node *next;
-} t_node;
+	int	philo_num;
+	int	time_die;
+	int	time_eat;
+	int	time_sleep;
+	int	req_eat;
+} t_rules;
 
 typedef struct s_philo
 {
-    int index; //starts from 0
-    BOOL in_queue; //whether philo is in queue
-    int last_eat;
-    int lunch_num; //how many times philo ate
+	struct s_data	*data;
+	pthread_t		t1;
+	int				id;
+	int				meal_times;
+	int				status;
+	int				eating;
+	t_rules			*rules;
+	pthread_mutex_t	lock;
+	pthread_mutex_t	*r_fork;
+	pthread_mutex_t	*l_fork;
 } t_philo;
 
-//data for queue
+
 typedef struct s_data
 {
-    int philo_num;
-    t_philo *philos;
+	pthread_t	*tid;
+	t_rules		*rules;
+	int			is_dead;
+	int			finished;
+	t_philo		*philos;
+	pthread_mutex_t *forks;
+	pthread_mutex_t *lock;
+	//pthread_mutex_t write;
+}	t_data;
 
-    t_node *queue;
-} t_data;
-
-typedef struct s_rules
-{
-    int time_to_died; //after eating how fast philo die
-    int time_to_eat; //how long philo is eating
-    int time_to_sleep; //how long philo is sleeping
-    int req_eat; //if specified - each philo eats that num of time - then program finished
-} t_rules;
-
-typedef struct s_threads
-{
-	pthread_mutex_t mutex;
-	t_data *data;
-	t_rules *rules;
-	int index;
-	BOOL is_stop; // false so far while no one died or ate enough
-} t_threads;
+//main.c 
+void free_data(t_data *data);
+void ft_exit(t_data *data);
+int ft_error(char *str, t_data *data);
 
 //error_handle.c
-void error_print();
+int	error_print();
 BOOL argm_parse(int ac, char **av);
 BOOL is_digit(char *str);
 BOOL philo_num_check(char *av);
 BOOL is_int(char *av);
 
-//main functions
-void waiter_main(t_data *data, t_rules *rules);
-    //waiter inside fun
-    void send_to_eat(t_data *data);
-    void check_rules(t_rules *rules);
-
-void philo_main(t_data *data, int philo_num);
-    //philo inside fun
-    void wait_for_eat(t_data *data, int philo_num);
-    void eat(t_data *data, int philo_num);
-    void return_to_queue(t_data *data, int philo_num);
-
+//prints.c
+void print_rules(t_data *data);
 
 //utils.c
 long long	ft_atoi(const char *str);
-void revome_node(t_node **head, int data);
-void add_back_note(t_node **head, int data);
-
-//free.c
-void free_rules(t_rules *rules);
-void *free_data(t_data *data);
-void free_linked_list(t_node *node);
 
 //init.c
-t_philo *init_philo(int philo_num);
-t_data *init_data(char **av);
-t_rules *init_rules(int ac, char **av);
-t_threads *init_threads_data(t_data *data, t_rules *rules);
-
-//threads.c
-BOOL thread_creating(t_threads *threads_data);
-BOOL create_supervisor(t_threads *threads_data, pthread_t *threads);
-
-//routines.c
-void *philo_routine(void *data_ptr);
-void *supervisor_routine(void *data_ptr);
-void free_threads(t_threads *threads_data, pthread_t *threads, int i);
-int can_remove_index(t_threads *threads_data);
-
-void print_queue(t_data *data);
+t_data *init(t_data *data, char **av, int ac);
+t_data *init_rules(char **av, int ac, t_data *data);
+t_data *alloc_structs(t_data *data);
 
 #endif

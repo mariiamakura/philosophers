@@ -1,117 +1,64 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   init.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mparasku <mparasku@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/07/03 14:23:06 by mparasku          #+#    #+#             */
+/*   Updated: 2023/07/03 16:35:52 by mparasku         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../include/philo.h"
 
-t_rules *init_rules(int ac, char **av)
+t_data *alloc_structs(t_data *data)
 {
-    t_rules *rules;
-
-    rules = (t_rules *)malloc(sizeof(t_rules));
-    if (rules == NULL)
-        return (NULL);
-    rules->time_to_died = (int) ft_atoi(av[2]);
-    rules->time_to_eat = (int) ft_atoi(av[3]);
-    rules->time_to_sleep = (int) ft_atoi(av[4]);
-    if (ac == 6)
-        rules->req_eat = (int) ft_atoi(av[5]);
-    return (rules);
-}
-
-t_philo *init_philo(int philo_num)
-{
-    t_philo *philos;
-    t_philo *philo;
-    int i;
-
-    philo = NULL;
-    i = 0;
-
-    philos = (t_philo *) malloc(philo_num * sizeof (t_philo));
-    if (philos == NULL)
-    {
-        return (NULL);
-    }
-    while (i < philo_num)
-    {
-        philo = &philos[i];
-        philo->in_queue = TRUE;
-        philo->index = i;
-        philo->last_eat = 0;
-        philo->lunch_num = 0;
-        i++;
-    }
-    return (philos);
-}
-
-t_node *init_queue(int philo_num)
-{
-    t_node *queue;
-    t_node *node;
-    t_node *prev_node;
-    int i;
-
-    queue = NULL;
-    node = NULL;
-    prev_node = NULL;
-    i = 0;
-    while (i < philo_num)
-    {
-        prev_node = node;
-        node = (t_node *) malloc(sizeof (t_node));
-        if (node == NULL)
-        {
-            free_linked_list(queue);
-            return (NULL);
-        }
-        if (queue == NULL)
-            queue = node;
-        if (prev_node != NULL)
-        {
-            prev_node->next = node;
-        }
-        node->data = i;
-        i++;
-    }
-    return (queue);
-}
-
-t_data *init_data(char **av)
-{
-    t_data *data;
-    int philo_num;
-    t_philo *philos;
-    t_node *queue;
-
-    philo_num = (int) ft_atoi(av[1]);
-    data = (t_data *) malloc(sizeof(t_data));
-    if (data == NULL)
-        return (NULL);
-    philos = init_philo(philo_num);
-    if (philos == NULL)
-        return (free_data(data));
-    queue = init_queue(philo_num);
-    if (queue == NULL)
-    {
-        free(philos);
-        return (free_data(data));
-    }
-    data->philo_num = philo_num;
-    data->philos = philos;
-    data->queue = queue;
-    return (data);
-}
-
-t_threads *init_threads_data(t_data *data, t_rules *rules)
-{
-	t_threads *threads_data;
-	pthread_mutex_t mutex;
-
-	threads_data = (t_threads *)malloc(sizeof(t_threads));
-	pthread_mutex_init(&mutex, NULL);
-	threads_data->mutex = mutex;
-	if (threads_data == NULL)
+	data->tid = malloc(sizeof(pthread_t) * data->rules->philo_num);
+	if (data->tid == NULL)
 		return (NULL);
-	threads_data->data = data;
-	threads_data->rules = rules;
-    threads_data->is_stop = FALSE;
-    return (threads_data);
+	data->forks = malloc(sizeof(pthread_mutex_t) * data->rules->philo_num);
+	if (data->forks == NULL)
+		return (NULL);
+	data->philos = malloc(sizeof(t_philo) * data->rules->philo_num);
+	if (data->philos == NULL)
+		return (NULL);
+	data->lock = malloc(sizeof(pthread_mutex_t));
+	if (data->lock == NULL)
+		return (NULL);
+	return (data);
 }
 
+t_data *init_rules(char **av, int ac, t_data *data)
+{
+	t_rules *rules;
+	
+	data = (t_data *)malloc(sizeof(t_data));
+	rules = (t_rules *)malloc(sizeof(t_rules));
+	if (rules == NULL || data == NULL)
+		return (NULL);
+	rules->philo_num = (int) ft_atoi(av[1]);
+	rules->time_die = (int) ft_atoi(av[2]);
+	rules->time_eat = (int) ft_atoi(av[3]);
+	rules->time_sleep = (int) ft_atoi(av[4]);
+	if (ac == 6)
+		rules->req_eat = (int) ft_atoi(av[5]);
+	else
+		rules->req_eat = -1;
+	data->rules = rules;
+	data->is_dead = 0;
+	data->finished = 0;
+	return (data);
+}
+
+
+t_data *init(t_data *data, char **av, int ac)
+{
+	data = init_rules(av, ac, data);
+	if (data == NULL)
+		return (NULL);
+	data = alloc_structs(data);
+	if (data == NULL)
+		return (NULL);
+	return(data);
+}

@@ -1,9 +1,9 @@
 #include "../include/philo.h"
 
-void	error_print()
+int	error_print()
 {
 	write(2, "Error occured\n", 15);
-	exit(-1);
+	return(-1);
 }
 
 BOOL	is_digit(char *str)
