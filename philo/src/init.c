@@ -6,7 +6,7 @@
 /*   By: mparasku <mparasku@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/03 14:23:06 by mparasku          #+#    #+#             */
-/*   Updated: 2023/07/03 16:35:52 by mparasku         ###   ########.fr       */
+/*   Updated: 2023/07/03 17:35:08 by mparasku         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,9 +22,6 @@ t_data *alloc_structs(t_data *data)
 		return (NULL);
 	data->philos = malloc(sizeof(t_philo) * data->rules->philo_num);
 	if (data->philos == NULL)
-		return (NULL);
-	data->lock = malloc(sizeof(pthread_mutex_t));
-	if (data->lock == NULL)
 		return (NULL);
 	return (data);
 }
@@ -51,6 +48,31 @@ t_data *init_rules(char **av, int ac, t_data *data)
 	return (data);
 }
 
+t_data *alloc_forks(t_data *data)
+{
+	int	i;
+
+	i = 0;
+	if (pthread_mutex_init(&data->lock, NULL))
+		return (NULL);
+	while(i < data->rules->philo_num)
+	{
+		if (pthread_mutex_init(&data->forks[i], NULL) != 0)
+			return (NULL);
+		i++;
+	}
+	i = 0;
+	data->philos[0].r_fork = &data->forks[0];
+	data->philos[0].l_fork = &data->forks[data->rules->philo_num - 1];
+	i = 1;
+	while (i < data->rules->philo_num)
+	{
+		data->philos[i].r_fork = &data->forks[i];
+		data->philos[i].l_fork = &data->forks[i - 1];
+		i++;
+	}
+	return (data);
+}
 
 t_data *init(t_data *data, char **av, int ac)
 {
@@ -59,6 +81,9 @@ t_data *init(t_data *data, char **av, int ac)
 		return (NULL);
 	data = alloc_structs(data);
 	if (data == NULL)
-		return (NULL);
+		return(ft_error_exit("Error alloc structs", data, 1));
+	data = alloc_forks(data);
+	if (data == NULL)
+		return(ft_error_exit("Error alloc mutex", data, 2));;
 	return(data);
 }

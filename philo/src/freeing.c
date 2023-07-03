@@ -1,18 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   freeing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mparasku <mparasku@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/06/21 16:20:50 by mparasku          #+#    #+#             */
-/*   Updated: 2023/07/03 17:35:31 by mparasku         ###   ########.fr       */
+/*   Created: 2023/07/03 17:18:36 by mparasku          #+#    #+#             */
+/*   Updated: 2023/07/03 17:35:51 by mparasku         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/philo.h"
 
-/* void free_data(t_data *data)
+void free_data(t_data *data)
 {
 	if (data->tid != NULL)
 		free(data->tid);
@@ -25,53 +25,35 @@
 	free(data);
 }
 
-void ft_exit(t_data *data)
+void destroy_mutex(t_data *data)
 {
-
-	pthread_mutex_destroy(&data->lock);
-	free_data(data);
-
-	// maybe flag 1 before lock are alloced
-	// flag 2 when locks are alloced
 	int	i;
 
 	i = 0;
-
+	
+	pthread_mutex_destroy(&data->lock);
 	while (i < data->rules->philo_num)
 	{
 		pthread_mutex_destroy(&data->forks[i]);
-		pthread_mutex_destroy(&data->philos[i].lock);
+		//pthread_mutex_destroy(&data->philos[i].lock);
 		i++;
 	}
 }
 
-int ft_error(char *str, t_data *data)
+t_data *ft_error_exit(char *str, t_data *data, int flag)
 {
 	printf("%s\n", str);
-	if (data != NULL)
-		ft_exit(data);
-	return (-1);
-} */
-
-
-int	main(int ac, char **av)
-{
-	t_data *data;
-
-	data = NULL;
-	if (!argm_parse(ac, av))
-		return (error_print());
-	data = init(data, av, ac);
-	if (data == NULL)
-		return(-1);
-	print_rules(data);
-
-	destroy_mutex(data);
-	free_data(data);
-	
-
-	return (0);
+	if (flag == 1) //alloced data and structs in data
+	{
+		free_data(data);
+		return(NULL);
+	}
+	else if (flag == 2) //alloced above + mutex on forks
+	{
+		destroy_mutex(data);
+		free_data(data);
+		return (NULL);
+	}
+	else	
+		return (NULL);
 }
-
-//run like this on mac > MallocNanoZone=0 ./a.out
-//flag  -fsanitize=thread

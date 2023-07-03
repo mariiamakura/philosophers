@@ -43,14 +43,10 @@ typedef struct s_data
 	int			finished;
 	t_philo		*philos;
 	pthread_mutex_t *forks;
-	pthread_mutex_t *lock;
+	pthread_mutex_t lock;
 	//pthread_mutex_t write;
 }	t_data;
 
-//main.c 
-void free_data(t_data *data);
-void ft_exit(t_data *data);
-int ft_error(char *str, t_data *data);
 
 //error_handle.c
 int	error_print();
@@ -69,5 +65,11 @@ long long	ft_atoi(const char *str);
 t_data *init(t_data *data, char **av, int ac);
 t_data *init_rules(char **av, int ac, t_data *data);
 t_data *alloc_structs(t_data *data);
+t_data *alloc_forks(t_data *data);
+
+//freeing.c
+t_data *ft_error_exit(char *str, t_data *data, int flag);
+void destroy_mutex(t_data *data);
+void free_data(t_data *data);
 
 #endif
