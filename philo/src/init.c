@@ -45,6 +45,7 @@ t_data *init_rules(char **av, int ac, t_data *data)
 	data->rules = rules;
 	data->is_dead = 0;
 	data->finished = 0;
+    data->start_time = 0;
 	return (data);
 }
 
@@ -62,13 +63,13 @@ t_data *init_forks(t_data *data)
 		i++;
 	}
 	i = 0;
-	data->philos[0].l_fork = &data->forks[0];
-	data->philos[0].r_fork = &data->forks[data->rules->philo_num - 1];
+	data->philos[0].r_fork = &data->forks[0];
+	data->philos[0].l_fork = &data->forks[data->rules->philo_num - 1];
 	i = 1;
 	while (i < data->rules->philo_num)
 	{
-		data->philos[i].l_fork = &data->forks[i];
-		data->philos[i].r_fork = &data->forks[i - 1];
+		data->philos[i].r_fork = &data->forks[i];
+		data->philos[i].l_fork = &data->forks[i - 1];
 		i++;
 	}
 	return (data);

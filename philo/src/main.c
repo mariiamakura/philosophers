@@ -12,48 +12,6 @@
 
 #include "../include/philo.h"
 
-/* void free_data(t_data *data)
-{
-	if (data->tid != NULL)
-		free(data->tid);
-	if (data->forks != NULL)
-		free(data->forks);
-	if (data->philos != NULL)
-		free(data->philos);
-	if (data->rules != NULL)
-		free(data->rules);
-	free(data);
-}
-
-void ft_exit(t_data *data)
-{
-
-	pthread_mutex_destroy(&data->lock);
-	free_data(data);
-
-	// maybe flag 1 before lock are alloced
-	// flag 2 when locks are alloced
-	int	i;
-
-	i = 0;
-
-	while (i < data->rules->philo_num)
-	{
-		pthread_mutex_destroy(&data->forks[i]);
-		pthread_mutex_destroy(&data->philos[i].lock);
-		i++;
-	}
-}
-
-int ft_error(char *str, t_data *data)
-{
-	printf("%s\n", str);
-	if (data != NULL)
-		ft_exit(data);
-	return (-1);
-} */
-
-
 int	main(int ac, char **av)
 {
 	t_data *data;
@@ -66,6 +24,7 @@ int	main(int ac, char **av)
 		return(-1);
 	//print_rules(data);
 	//print_philo(data);
+    thread_init(data);
 	destroy_mutex(data);
 	free_data(data);
 	

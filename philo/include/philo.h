@@ -11,6 +11,11 @@
 # include <stdlib.h>
 # include <limits.h>
 
+//typedef struct s_time
+//{
+//
+//} t_time;
+
 typedef struct	s_rules
 {
 	int	philo_num;
@@ -42,6 +47,7 @@ typedef struct s_data
 	t_rules		*rules;
 	int			is_dead;
 	int			finished;
+    long        start_time;
 	t_philo		*philos;
 	pthread_mutex_t *forks;
 	pthread_mutex_t lock;
@@ -62,6 +68,7 @@ void print_philo(t_data *data);
 
 //utils.c
 long long	ft_atoi(const char *str);
+long get_time();
 
 //init.c
 t_data *init(t_data *data, char **av, int ac);
@@ -74,5 +81,8 @@ t_data *init_philo(t_data *data);
 t_data *ft_error_exit(char *str, t_data *data, int flag);
 void destroy_mutex(t_data *data);
 void free_data(t_data *data);
+
+//threads.c
+BOOL thread_init(t_data *data);
 
 #endif
