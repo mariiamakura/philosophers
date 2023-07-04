@@ -1,6 +1,6 @@
 #include "../include/philo.h"
 
-long get_time()
+long ft_get_time()
 {
     struct timeval tv;
 

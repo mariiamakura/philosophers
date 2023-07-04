@@ -33,7 +33,7 @@ typedef struct s_philo
 	int				meal_times;
 	int				status;
 	int				eating;
-	int 			time_die;
+	long 			time_die;
 	t_rules			*rules;
 	pthread_mutex_t	lock;
 	pthread_mutex_t	*r_fork;
@@ -68,7 +68,7 @@ void print_philo(t_data *data);
 
 //utils.c
 long long	ft_atoi(const char *str);
-long get_time();
+long ft_get_time();
 
 //init.c
 t_data *init(t_data *data, char **av, int ac);
@@ -84,5 +84,12 @@ void free_data(t_data *data);
 
 //threads.c
 BOOL thread_init(t_data *data);
+void *supervisor(void *data_ptr);
+void *philo_routine(void *philo_ptr);
+
+//philo_act.c
+void eat(t_philo *philo);
+void take_forks(t_philo *philo);
+void put_forks(t_philo *philo);
 
 #endif

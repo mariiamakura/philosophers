@@ -6,7 +6,7 @@
 /*   By: mparasku <mparasku@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/03 17:18:36 by mparasku          #+#    #+#             */
-/*   Updated: 2023/07/03 17:35:51 by mparasku         ###   ########.fr       */
+/*   Updated: 2023/07/04 15:34:59 by mparasku         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ void destroy_mutex(t_data *data)
 	while (i < data->rules->philo_num)
 	{
 		pthread_mutex_destroy(&data->forks[i]);
-		//pthread_mutex_destroy(&data->philos[i].lock);
+		pthread_mutex_destroy(&data->philos[i].lock);
 		i++;
 	}
 }
