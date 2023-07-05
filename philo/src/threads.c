@@ -12,6 +12,8 @@ void *philo_routine(void *philo_ptr)
     {
 		eat(philo);
 		message(THINKING, philo);
+		if (philo->meal_times == philo->data->rules->req_eat)
+			philo->data->finished++;
 	}
 	return ((void *)0);
 }
@@ -36,6 +38,11 @@ void *supervisor(void *data_ptr)
 				message(DIED, &data->philos[i]);
 				break;
 			}
+			if (data->finished == data->rules->philo_num)
+			{
+				data->is_dead = TRUE;
+				break;
+			}
 		}
 	}
 	return ((void *)0);
@@ -56,7 +63,7 @@ BOOL thread_init(t_data *data)
     {
         if (pthread_create(&data->tid[i], NULL, philo_routine, &data->philos[i]))
             return (FALSE);
-        usleep(10);
+        usleep(1);
         i++;
     }
 	if (pthread_create(&supervisor_s, NULL, supervisor, data))

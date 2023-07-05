@@ -4,7 +4,6 @@ void put_forks(t_philo *philo)
 {
 	pthread_mutex_unlock(philo->l_fork);
 	pthread_mutex_unlock(philo->r_fork);
-	//printf("Thread #%i droped forks\n", philo->id);
 }
 
 void take_forks(t_philo *philo)

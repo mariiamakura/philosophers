@@ -16,11 +16,6 @@
 # include <stdlib.h>
 # include <limits.h>
 
-//typedef struct s_time
-//{
-//
-//} t_time;
-
 typedef struct	s_rules
 {
 	int	philo_num;
@@ -56,7 +51,6 @@ typedef struct s_data
 	t_philo		*philos;
 	pthread_mutex_t *forks;
 	pthread_mutex_t lock;
-	//pthread_mutex_t write;
 }	t_data;
 
 
