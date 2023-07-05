@@ -6,13 +6,13 @@
 /*   By: mparasku <mparasku@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/03 14:23:06 by mparasku          #+#    #+#             */
-/*   Updated: 2023/07/04 15:34:13 by mparasku         ###   ########.fr       */
+/*   Updated: 2023/07/05 16:54:28 by mparasku         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/philo.h"
 
-t_data *alloc_structs(t_data *data)
+t_data	*alloc_structs(t_data *data)
 {
 	data->tid = malloc(sizeof(pthread_t) * data->rules->philo_num);
 	if (data->tid == NULL)
@@ -26,10 +26,10 @@ t_data *alloc_structs(t_data *data)
 	return (data);
 }
 
-t_data *init_rules(char **av, int ac, t_data *data)
+t_data	*init_rules(char **av, int ac, t_data *data)
 {
-	t_rules *rules;
-	
+	t_rules	*rules;
+
 	data = (t_data *)malloc(sizeof(t_data));
 	rules = (t_rules *)malloc(sizeof(t_rules));
 	if (rules == NULL || data == NULL)
@@ -45,18 +45,18 @@ t_data *init_rules(char **av, int ac, t_data *data)
 	data->rules = rules;
 	data->is_dead = 0;
 	data->finished = 0;
-    data->start_time = 0;
+	data->start_time = 0;
 	return (data);
 }
 
-t_data *init_forks(t_data *data)
+t_data	*init_forks(t_data *data)
 {
 	int	i;
 
 	i = 0;
 	if (pthread_mutex_init(&data->lock, NULL))
 		return (NULL);
-	while(i < data->rules->philo_num)
+	while (i < data->rules->philo_num)
 	{
 		if (pthread_mutex_init(&data->forks[i], NULL) != 0)
 			return (NULL);
@@ -75,7 +75,7 @@ t_data *init_forks(t_data *data)
 	return (data);
 }
 
-t_data *init_philo(t_data *data)
+t_data	*init_philo(t_data *data)
 {
 	int	i;
 
@@ -83,7 +83,7 @@ t_data *init_philo(t_data *data)
 	while (i < data->rules->philo_num)
 	{
 		data->philos[i].data = data;
-		data->philos[i].id = i + 1; //philos start from 1
+		data->philos[i].id = i + 1;
 		data->philos[i].time_die = data->rules->time_die;
 		data->philos[i].meal_times = 0;
 		data->philos[i].eating = FALSE;
@@ -95,17 +95,17 @@ t_data *init_philo(t_data *data)
 	return (data);
 }
 
-t_data *init(t_data *data, char **av, int ac)
+t_data	*init(t_data *data, char **av, int ac)
 {
 	data = init_rules(av, ac, data);
 	if (data == NULL)
 		return (NULL);
 	data = alloc_structs(data);
 	if (data == NULL)
-		return(ft_error_exit("Error alloc structs", data, 1));
+		return (ft_error_exit("Error alloc structs", data, 1));
 	data = init_forks(data);
 	data = init_philo(data);
 	if (data == NULL)
-		return(ft_error_exit("Error alloc mutex", data, 2));
-	return(data);
+		return (ft_error_exit("Error alloc mutex", data, 2));
+	return (data);
 }

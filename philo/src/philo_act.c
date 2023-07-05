@@ -1,41 +1,54 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   philo_act.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mparasku <mparasku@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/07/05 17:15:47 by mparasku          #+#    #+#             */
+/*   Updated: 2023/07/05 17:49:37 by mparasku         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../include/philo.h"
 
-void put_forks(t_philo *philo)
+void	put_forks(t_philo *philo)
 {
 	pthread_mutex_unlock(philo->l_fork);
 	pthread_mutex_unlock(philo->r_fork);
 }
 
-void take_forks(t_philo *philo)
+void	take_forks(t_philo *philo)
 {
-	if (philo->id % 2 == 0) 
+	if (philo->id % 2 == 0)
 	{
-        pthread_mutex_lock(philo->l_fork);
+		pthread_mutex_lock(philo->l_fork);
 		message(TEAKEN_FORK, philo);
-        pthread_mutex_lock(philo->r_fork);
+		pthread_mutex_lock(philo->r_fork);
 		message(TEAKEN_FORK, philo);
-    } 
-	else 
+	}
+	else
 	{
-        pthread_mutex_lock(philo->r_fork);
+		pthread_mutex_lock(philo->r_fork);
 		message(TEAKEN_FORK, philo);
-        pthread_mutex_lock(philo->l_fork);
+		pthread_mutex_lock(philo->l_fork);
 		message(TEAKEN_FORK, philo);
-    }
+	}
 }
 
-void message(char *str, t_philo *philo)
+void	message(char *str, t_philo *philo)
 {
 	long	time;
 
 	time = ft_get_time() - philo->data->start_time;
-	if (ft_strcmp(DIED, str) == 0 && philo->data->is_dead == TRUE && philo->eating == FALSE)
-		printf("%lu %i %s\n", time, philo->id, str);
 	if (philo->data->is_dead == 0)
+		printf("%lu %i %s\n", time, philo->id, str);
+	if (ft_strcmp(DIED, str) == 0 && philo->data->is_dead == TRUE
+		&& philo->eating == FALSE)
 		printf("%lu %i %s\n", time, philo->id, str);
 }
 
-void eat(t_philo *philo)
+void	eat(t_philo *philo)
 {
 	take_forks(philo);
 	philo->eating = TRUE;

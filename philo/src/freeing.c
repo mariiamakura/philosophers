@@ -6,13 +6,13 @@
 /*   By: mparasku <mparasku@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/03 17:18:36 by mparasku          #+#    #+#             */
-/*   Updated: 2023/07/04 15:34:59 by mparasku         ###   ########.fr       */
+/*   Updated: 2023/07/05 17:15:22 by mparasku         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/philo.h"
 
-void free_data(t_data *data)
+void	free_data(t_data *data)
 {
 	if (data->tid != NULL)
 		free(data->tid);
@@ -25,12 +25,11 @@ void free_data(t_data *data)
 	free(data);
 }
 
-void destroy_mutex(t_data *data)
+void	destroy_mutex(t_data *data)
 {
 	int	i;
 
 	i = 0;
-	
 	pthread_mutex_destroy(&data->lock);
 	while (i < data->rules->philo_num)
 	{
@@ -40,20 +39,20 @@ void destroy_mutex(t_data *data)
 	}
 }
 
-t_data *ft_error_exit(char *str, t_data *data, int flag)
+t_data	*ft_error_exit(char *str, t_data *data, int flag)
 {
 	printf("%s\n", str);
-	if (flag == 1) //alloced data and structs in data
+	if (flag == 1)
 	{
 		free_data(data);
-		return(NULL);
+		return (NULL);
 	}
-	else if (flag == 2) //alloced above + mutex on forks
+	else if (flag == 2)
 	{
 		destroy_mutex(data);
 		free_data(data);
 		return (NULL);
 	}
-	else	
+	else
 		return (NULL);
 }
