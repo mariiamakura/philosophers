@@ -4,7 +4,6 @@
 void *philo_routine(void *philo_ptr)
 {
     t_philo *philo;
-	int i = 0;
 
     philo = (t_philo *) philo_ptr;
 	philo->time_die = philo->data->rules->time_die + ft_get_time();
@@ -12,11 +11,8 @@ void *philo_routine(void *philo_ptr)
 	while (philo->data->is_dead == FALSE)
     {
 		eat(philo);
-		printf("threads is dead = %i\n", philo->data->is_dead);
-		i++;
-		// if (i == 100) //check the time;
-		// 	philo->data->is_dead = TRUE;
-    }
+		message(THINKING, philo);
+	}
 	return ((void *)0);
 }
 
@@ -27,17 +23,28 @@ void *supervisor(void *data_ptr)
 
 	data = (t_data *)data_ptr;
 	i = 0;
-	while (i < 20)
-		i++;
-	data->is_dead = TRUE;
-	printf("supervisor *is_dead value %i\n", data->is_dead);
-	return((void *)0);
+
+	while (data->is_dead == FALSE)
+	{
+		i = 0;
+		while (i < data->rules->philo_num)
+		{
+			if (ft_get_time() >= data->philos[i].time_die)
+			{
+				data->is_dead = TRUE;
+				//printf("is dead %i\n", data->is_dead);
+				message(DIED, &data->philos[i]);
+				break;
+			}
+		}
+	}
+	return ((void *)0);
 }
 
 BOOL thread_init(t_data *data)
 {
     int i;
-    // pthread_t supervisor_s;
+    pthread_t supervisor_s;
 
     i = 0;
     data->start_time = ft_get_time();
@@ -49,11 +56,15 @@ BOOL thread_init(t_data *data)
     {
         if (pthread_create(&data->tid[i], NULL, philo_routine, &data->philos[i]))
             return (FALSE);
-		//printf("Thread #%i was created\n", i);
-        usleep(100);
+        usleep(10);
         i++;
     }
+	if (pthread_create(&supervisor_s, NULL, supervisor, data))
+        return (FALSE);
+
 	i = 0;
+
+	pthread_join(supervisor_s, NULL);
 	while (i < data->rules->philo_num)
 	{
 		if (pthread_join(data->tid[i], NULL) != 0)

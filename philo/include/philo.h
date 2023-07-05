@@ -7,7 +7,7 @@
 # define EATING "is eating"
 # define SLEEPING "is sleeping"
 # define THINKING "is thinking"
-# define DEID "died"
+# define DIED "died"
 
 # include <stdio.h>
 # include <unistd.h>
@@ -97,5 +97,6 @@ void *philo_routine(void *philo_ptr);
 void eat(t_philo *philo);
 void take_forks(t_philo *philo);
 void put_forks(t_philo *philo);
+void message(char *str, t_philo *philo);
 
 #endif
