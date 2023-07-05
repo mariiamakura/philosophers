@@ -21,13 +21,29 @@ void take_forks(t_philo *philo)
     }
 }
 
+void message(char *str, t_philo *philo)
+{
+	long	time;
+
+	time = ft_get_time() - philo->data->start_time;
+	if (ft_strcmp(DEID, str) == 0 && philo->data->is_dead == 1)
+		printf("%lu %i %s\n", time, philo->id, str);
+	if (philo->data->is_dead == 0)
+		printf("%lu %i %s\n", time, philo->id, str);
+}
+
 void eat(t_philo *philo)
 {
 	take_forks(philo);
-	pthread_mutex_lock(&philo->lock);
+	if (philo->time_die == ft_get_time())
+		philo->data->is_dead == TRUE;
+	//pthread_mutex_lock(&philo->lock);
 	philo->eating = TRUE;
+	philo->time_die = ft_get_time() + philo->data->rules->time_die;
 	printf("thread #%i is eating\n", philo->id);
 	philo->meal_times++;
-	pthread_mutex_unlock(&philo->lock);
+	philo->data->is_dead = TRUE;
+	//pthread_mutex_unlock(&philo->lock);
 	put_forks(philo);
+	usleep(100);
 }

@@ -14,6 +14,8 @@ void *philo_routine(void *philo_ptr)
 		eat(philo);
 		printf("threads is dead = %i\n", philo->data->is_dead);
 		i++;
+		// if (i == 100) //check the time;
+		// 	philo->data->is_dead = TRUE;
     }
 	return ((void *)0);
 }
@@ -29,20 +31,6 @@ void *supervisor(void *data_ptr)
 		i++;
 	data->is_dead = TRUE;
 	printf("supervisor *is_dead value %i\n", data->is_dead);
-	// while (data->is_dead == FALSE)
-	// {
-	// 	//pthread_mutex_lock(&data->lock);
-	// 	while (i < data->rules->philo_num)
-	// 	{
-	// 		if (data->philos[i].time_die >= ft_get_time())
-	// 		{
-	// 			//data->is_dead = TRUE;
-	// 			break;
-	// 		}
-	// 		i++;
-	// 	}
-	// 	//pthread_mutex_unlock(&data->lock);
-	// }
 	return((void *)0);
 }
 
@@ -57,27 +45,15 @@ BOOL thread_init(t_data *data)
 	{
         return (FALSE);
 	}
-
-//    if (data->rules->req_eat > 0)
-//    {
-//        //write monitor
-//    }
     while (i < data->rules->philo_num)
     {
         if (pthread_create(&data->tid[i], NULL, philo_routine, &data->philos[i]))
             return (FALSE);
-		printf("Thread #%i was created\n", i);
+		//printf("Thread #%i was created\n", i);
         usleep(100);
         i++;
     }
 	i = 0;
-
-	// if (pthread_create(&supervisor_s, NULL, supervisor, &data) != 0)
-	// 	return (FALSE);
-
-	// if (pthread_join(supervisor_s, NULL) != 0)
-	// 	return (FALSE);
-
 	while (i < data->rules->philo_num)
 	{
 		if (pthread_join(data->tid[i], NULL) != 0)

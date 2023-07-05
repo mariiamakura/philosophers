@@ -3,6 +3,11 @@
 # define BOOL int
 # define TRUE 1
 # define FALSE 0
+# define TEAKEN_FORK "has taken a fork"
+# define EATING "is eating"
+# define SLEEPING "is sleeping"
+# define THINKING "is thinking"
+# define DEID "died"
 
 # include <stdio.h>
 # include <unistd.h>
@@ -69,6 +74,7 @@ void print_philo(t_data *data);
 //utils.c
 long long	ft_atoi(const char *str);
 long ft_get_time();
+int	ft_strcmp(char *s1, char *s2);
 
 //init.c
 t_data *init(t_data *data, char **av, int ac);

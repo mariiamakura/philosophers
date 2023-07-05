@@ -9,6 +9,16 @@ long ft_get_time()
     return ((tv.tv_sec * 1000) + (tv.tv_usec / 1000)); //transform into miliseconds
 }
 
+int	ft_strcmp(char *s1, char *s2)
+{
+	int i;
+
+	i = 0;
+	while (s1[i] != '\0' && (s1[i] == s2[i]))
+		i++;
+	return (s1[i] - s2[i]);
+}
+
 long long	ft_atoi(const char *str)
 {
     int			neg;
