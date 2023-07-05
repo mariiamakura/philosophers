@@ -34,7 +34,6 @@ void *supervisor(void *data_ptr)
 			if (ft_get_time() >= data->philos[i].time_die)
 			{
 				data->is_dead = TRUE;
-				//printf("is dead %i\n", data->is_dead);
 				message(DIED, &data->philos[i]);
 				break;
 			}
@@ -69,9 +68,8 @@ BOOL thread_init(t_data *data)
 	if (pthread_create(&supervisor_s, NULL, supervisor, data))
         return (FALSE);
 
-	i = 0;
-
 	pthread_join(supervisor_s, NULL);
+	i = 0;
 	while (i < data->rules->philo_num)
 	{
 		if (pthread_join(data->tid[i], NULL) != 0)

@@ -38,14 +38,12 @@ void message(char *str, t_philo *philo)
 void eat(t_philo *philo)
 {
 	take_forks(philo);
-	//pthread_mutex_lock(&philo->lock);
-	philo->eating = TRUE; //do i need it?
+	philo->eating = TRUE;
 	message(EATING, philo);
 	philo->time_die = ft_get_time() + philo->data->rules->time_die;
 	usleep(philo->data->rules->time_eat * 1000);
 	philo->eating = FALSE;
 	philo->meal_times++;
-	//pthread_mutex_unlock(&philo->lock);
 	put_forks(philo);
 	message(SLEEPING, philo);
 	usleep(philo->data->rules->time_sleep * 1000);
