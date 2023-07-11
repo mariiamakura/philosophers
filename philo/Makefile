@@ -4,8 +4,8 @@ COLOUR_END=\033[0;0m
 NAME = philo
 NAME_DEBUG = philo_deb
 CC = cc
-CFLAGS = -Wall -Wextra -Werror
-THREADS = -fsanitize=thread
+CFLAGS = -Wall -Wextra -Werror 
+THREADS = -fsanitize=thread -pthread
 
 HEADER = -I ./include -I ./philo.h/include
 
@@ -18,7 +18,7 @@ all: $(NAME)
 
 $(NAME): $(OBJ_FILES)
 	@echo "Building $(NAME) application"
-	@$(CC) $(CFLAGS) $(THREADS) $(HEADER) -o $(NAME) $(OBJ_FILES)
+	@$(CC) $(CFLAGS) $(HEADER) -o $(NAME) $(OBJ_FILES)
 	@echo "$(COLOUR_GREEN)BUILD SUCCESSFUL$(COLOUR_END)"
 
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c | $(OBJ_DIR)

@@ -6,7 +6,7 @@
 /*   By: mparasku <mparasku@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/05 16:57:01 by mparasku          #+#    #+#             */
-/*   Updated: 2023/07/05 17:47:03 by mparasku         ###   ########.fr       */
+/*   Updated: 2023/07/11 16:45:36 by mparasku         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,8 @@ void	*p_routine(void *philo_ptr)
 	{
 		eat(philo);
 		message(THINKING, philo);
+		if (philo->data->rules->philo_num == 1)
+			return ((void *)0);
 		if (philo->meal_times == philo->data->rules->req_eat)
 			philo->data->finished++;
 	}

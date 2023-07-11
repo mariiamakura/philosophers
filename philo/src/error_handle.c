@@ -6,7 +6,7 @@
 /*   By: mparasku <mparasku@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/05 16:52:00 by mparasku          #+#    #+#             */
-/*   Updated: 2023/07/05 16:52:34 by mparasku         ###   ########.fr       */
+/*   Updated: 2023/07/11 15:39:23 by mparasku         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ BOOL	philo_num_check(char *av)
 	int	philo_num;
 
 	philo_num = (int) ft_atoi(av);
-	if (philo_num <= 1 || philo_num > 200)
+	if (philo_num < 1 || philo_num > 200)
 		return (FALSE);
 	return (TRUE);
 }

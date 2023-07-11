@@ -6,7 +6,7 @@
 /*   By: mparasku <mparasku@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/05 17:15:47 by mparasku          #+#    #+#             */
-/*   Updated: 2023/07/05 17:49:37 by mparasku         ###   ########.fr       */
+/*   Updated: 2023/07/11 16:44:58 by mparasku         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,11 @@ void	take_forks(t_philo *philo)
 	{
 		pthread_mutex_lock(philo->r_fork);
 		message(TEAKEN_FORK, philo);
+		if (philo->data->rules->philo_num == 1)
+		{
+			pthread_mutex_unlock(philo->r_fork);
+			return ;
+		}
 		pthread_mutex_lock(philo->l_fork);
 		message(TEAKEN_FORK, philo);
 	}
@@ -51,6 +56,8 @@ void	message(char *str, t_philo *philo)
 void	eat(t_philo *philo)
 {
 	take_forks(philo);
+	if (philo->data->rules->philo_num == 1)
+		return ;
 	philo->eating = TRUE;
 	message(EATING, philo);
 	philo->time_die = ft_get_time() + philo->data->rules->time_die;
