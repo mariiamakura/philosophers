@@ -6,7 +6,7 @@
 /*   By: mparasku <mparasku@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/05 17:15:47 by mparasku          #+#    #+#             */
-/*   Updated: 2023/07/12 15:31:13 by mparasku         ###   ########.fr       */
+/*   Updated: 2023/07/11 16:44:58 by mparasku         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,14 +45,12 @@ void	message(char *str, t_philo *philo)
 {
 	long	time;
 
-	pthread_mutex_lock(&philo->data->lock);
 	time = ft_get_time() - philo->data->start_time;
 	if (philo->data->is_dead == 0)
 		printf("%lu %i %s\n", time, philo->id, str);
 	if (ft_strcmp(DIED, str) == 0 && philo->data->is_dead == TRUE
 		&& philo->eating == FALSE)
 		printf("%lu %i %s\n", time, philo->id, str);
-	pthread_mutex_unlock(&philo->data->lock);
 }
 
 void	eat(t_philo *philo)
