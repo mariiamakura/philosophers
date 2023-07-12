@@ -6,7 +6,7 @@
 /*   By: mparasku <mparasku@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/12 16:02:01 by mparasku          #+#    #+#             */
-/*   Updated: 2023/07/12 16:31:25 by mparasku         ###   ########.fr       */
+/*   Updated: 2023/07/12 17:46:10 by mparasku         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,17 +36,28 @@ t_data *sem_create(t_data *data)
 void	p_routine(t_philo *philo)
 {
 
-	philo->time_die = philo->data->rules->time_die + ft_get_time();
-	while (philo->data->is_dead == FALSE)
-	{
-		eat(philo);
-		message(THINKING, philo);
-		if (philo->data->rules->philo_num == 1)
-			return ((void *)0);
-		if (philo->meal_times == philo->data->rules->req_eat)
-			philo->data->finished++;
+	// philo->time_die = philo->data->rules->time_die + ft_get_time();
+	// while (philo->data->is_dead == FALSE)
+	// {
+	// 	eat(philo);
+	// 	message(THINKING, philo);
+	// 	if (philo->data->rules->philo_num == 1)
+	// 		return ((void *)0);
+	// 	if (philo->meal_times == philo->data->rules->req_eat)
+	// 		philo->data->finished++;
+	// }
+	// return ((void *)0);
+
+	while (TRUE) {
+		sem_wait(philo->data->forks);
+		message(TEAKEN_FORK, philo);
+		sem_wait(philo->data->forks);
+		message(TEAKEN_FORK, philo);
+		sleep(10);
+		sem_post(philo->data->forks);
+		sem_post(philo->data->forks);
+		sleep(10);
 	}
-	return ((void *)0);
 }
 
 
@@ -63,5 +74,6 @@ void ft_process_create(t_data *data)
 			p_routine(&data->philos[i]);
 		}
 		i++;
+		sleep(1);
 	}
 }

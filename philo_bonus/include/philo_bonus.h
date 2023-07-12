@@ -6,7 +6,7 @@
 /*   By: mparasku <mparasku@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/05 17:18:57 by mparasku          #+#    #+#             */
-/*   Updated: 2023/07/12 16:30:05 by mparasku         ###   ########.fr       */
+/*   Updated: 2023/07/12 17:32:31 by mparasku         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,6 +77,7 @@ BOOL		is_int(char *av);
 long long	ft_atoi(const char *str);
 long		ft_get_time(void);
 int			ft_strcmp(char *s1, char *s2);
+void		message(char *str, t_philo *philo);
 
 //init.c
 t_data		*init(t_data *data, char **av, int ac);

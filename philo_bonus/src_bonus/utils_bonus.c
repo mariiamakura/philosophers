@@ -1,17 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils.c                                            :+:      :+:    :+:   */
+/*   utils_bonus.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mparasku <mparasku@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/05 17:05:14 by mparasku          #+#    #+#             */
-/*   Updated: 2023/07/12 15:53:55 by mparasku         ###   ########.fr       */
+/*   Updated: 2023/07/12 17:44:38 by mparasku         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/philo_bonus.h"
 
+
+
+void	message(char *str, t_philo *philo)
+{
+
+	printf("%i %s\n", philo->id, str);
+	// long	time;
+	
+	// time = ft_get_time() - philo->data->start_time;
+	//printf("%lu %i %s\n", time, philo->id, str);
+	// if (ft_strcmp(DIED, str) == 0 && philo->data->is_dead == TRUE
+	// 	&& philo->eating == FALSE)
+	// 	printf("%lu %i %s\n", time, philo->id, str);
+}
 
 long	ft_get_time(void)
 {
