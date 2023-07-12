@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   main_bonus.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mparasku <mparasku@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/21 16:20:50 by mparasku          #+#    #+#             */
-/*   Updated: 2023/07/05 16:48:33 by mparasku         ###   ########.fr       */
+/*   Updated: 2023/07/12 16:18:40 by mparasku         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/philo.h"
+#include "../include/philo_bonus.h"
 
 int	main(int ac, char **av)
 {
@@ -22,8 +22,12 @@ int	main(int ac, char **av)
 	data = init(data, av, ac);
 	if (data == NULL)
 		return (-1);
-	thread_init(data);
-	destroy_mutex(data);
-	free_data(data);
+	data = sem_create(data);
+	if (data == NULL)
+		return (-1);
+	sem_wait(data->stop);
+	// process_init(data);
+	// destroy_mutex(data);
+	// free_data(data);
 	return (0);
 }

@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   philo.h                                            :+:      :+:    :+:   */
+/*   philo_bonus.h                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mparasku <mparasku@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/05 17:18:57 by mparasku          #+#    #+#             */
-/*   Updated: 2023/07/05 17:20:04 by mparasku         ###   ########.fr       */
+/*   Updated: 2023/07/12 16:30:05 by mparasku         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,11 @@
 # include <sys/time.h>
 # include <stdlib.h>
 # include <limits.h>
+# include <semaphore.h>
+# include <fcntl.h>
+# include <sys/stat.h>
+# include <signal.h>
+
 
 typedef struct s_rules
 {
@@ -40,28 +45,25 @@ typedef struct s_rules
 typedef struct s_philo
 {
 	struct s_data	*data;
-	pthread_t		t1;
+	pid_t			pid;
 	int				id;
 	int				meal_times;
-	int				status;
 	int				eating;
 	long			time_die;
 	t_rules			*rules;
-	pthread_mutex_t	lock;
-	pthread_mutex_t	*r_fork;
-	pthread_mutex_t	*l_fork;
 }	t_philo;
 
 typedef struct s_data
 {
-	pthread_t		*tid;
 	t_rules			*rules;
 	int				is_dead;
 	int				finished;
 	long			start_time;
 	t_philo			*philos;
-	pthread_mutex_t	*forks;
-	pthread_mutex_t	lock;
+	sem_t			*forks;
+	sem_t			*message;
+	sem_t			*death;
+	sem_t			*stop;
 }	t_data;
 
 //error_handle.c
@@ -80,23 +82,15 @@ int			ft_strcmp(char *s1, char *s2);
 t_data		*init(t_data *data, char **av, int ac);
 t_data		*init_rules(char **av, int ac, t_data *data);
 t_data		*alloc_structs(t_data *data);
-t_data		*init_forks(t_data *data);
 t_data		*init_philo(t_data *data);
 
+//sem_init.c
+t_data *sem_create(t_data *data);
+void ft_process_create(t_data *data);
+void	p_routine(t_philo *philo);
+
 //freeing.c
-t_data		*ft_error_exit(char *str, t_data *data, int flag);
-void		destroy_mutex(t_data *data);
-void		free_data(t_data *data);
-
-//threads.c
-BOOL		thread_init(t_data *data);
-void		*supervisor(void *data_ptr);
-void		*p_routine(void *philo_ptr);
-
-//philo_act.c
-void		eat(t_philo *philo);
-void		take_forks(t_philo *philo);
-void		put_forks(t_philo *philo);
-void		message(char *str, t_philo *philo);
+t_data	*ft_error_exit(char *str, t_data *data, int flag);
+void	free_data(t_data *data);
 
 #endif

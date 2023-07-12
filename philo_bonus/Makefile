@@ -1,15 +1,15 @@
 COLOUR_GREEN=\033[0;32m
 COLOUR_END=\033[0;0m
 
-NAME = philo
+NAME = philo_bonus
 NAME_DEBUG = philo_deb
 CC = cc
 CFLAGS = -Wall -Wextra -Werror 
 THREADS = -fsanitize=thread -pthread
 
-HEADER = -I ./include -I ./philo.h/include
+HEADER = -I ./include -I ./philo_bonus.h/include
 
-SRC_DIR = src
+SRC_DIR = src_bonus
 OBJ_DIR = build
 SRC_FILES = $(shell find $(SRC_DIR) -name "*.c")
 OBJ_FILES = $(patsubst $(SRC_DIR)/%.c,$(OBJ_DIR)/%.o,$(SRC_FILES))
@@ -39,6 +39,7 @@ fclean: clean
 run: all
 	@./$(NAME) $(ARGS)
 
+bonus : all
 
 re: fclean all
 

@@ -6,11 +6,12 @@
 /*   By: mparasku <mparasku@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/05 17:05:14 by mparasku          #+#    #+#             */
-/*   Updated: 2023/07/05 17:05:50 by mparasku         ###   ########.fr       */
+/*   Updated: 2023/07/12 15:53:55 by mparasku         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/philo.h"
+#include "../include/philo_bonus.h"
+
 
 long	ft_get_time(void)
 {
