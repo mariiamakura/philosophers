@@ -6,15 +6,15 @@
 /*   By: mparasku <mparasku@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/05 17:05:14 by mparasku          #+#    #+#             */
-/*   Updated: 2023/07/13 13:36:08 by mparasku         ###   ########.fr       */
+/*   Updated: 2023/07/13 18:06:30 by mparasku         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/philo_bonus.h"
 
-void ft_destroy_all(t_data *data)
+void	ft_destroy_all(t_data *data)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (i < data->rules->philo_num)
@@ -26,6 +26,10 @@ void ft_destroy_all(t_data *data)
 	sem_close(data->message);
 	sem_close(data->stop);
 	sem_close(data->forks);
+	sem_unlink("message");
+	sem_unlink("death");
+	sem_unlink("stop");
+	sem_unlink("forks");
 	free(data->philos);
 	free(data->rules);
 	free(data);
@@ -33,15 +37,12 @@ void ft_destroy_all(t_data *data)
 
 void	message(char *str, t_philo *philo)
 {
+	long	time;
 
-	printf("%i %s\n", philo->id, str);
-	// long	time;
-	
-	// time = ft_get_time() - philo->data->start_time;
-	//printf("%lu %i %s\n", time, philo->id, str);
-	// if (ft_strcmp(DIED, str) == 0 && philo->data->is_dead == TRUE
-	// 	&& philo->eating == FALSE)
-	// 	printf("%lu %i %s\n", time, philo->id, str);
+	time = ft_get_time() - philo->data->start_time;
+	sem_wait(philo->data->message);
+	printf("%lu %i %s\n", time, philo->id, str);
+	sem_post(philo->data->message);
 }
 
 long	ft_get_time(void)

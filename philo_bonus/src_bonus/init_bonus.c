@@ -6,7 +6,7 @@
 /*   By: mparasku <mparasku@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/03 14:23:06 by mparasku          #+#    #+#             */
-/*   Updated: 2023/07/12 15:56:16 by mparasku         ###   ########.fr       */
+/*   Updated: 2023/07/13 18:03:01 by mparasku         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,6 @@ t_data	*init_rules(char **av, int ac, t_data *data)
 	return (data);
 }
 
-
 t_data	*init_philo(t_data *data)
 {
 	int	i;
@@ -61,6 +60,8 @@ t_data	*init_philo(t_data *data)
 		data->philos[i].meal_times = 0;
 		data->philos[i].eating = FALSE;
 		data->philos[i].pid = -1;
+		data->philos[i].forks = sem_open("forks", 0);
+		data->philos[i].message = sem_open("message", 0);
 		i++;
 	}
 	return (data);

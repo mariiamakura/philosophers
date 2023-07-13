@@ -6,7 +6,7 @@
 /*   By: mparasku <mparasku@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/05 16:57:01 by mparasku          #+#    #+#             */
-/*   Updated: 2023/07/12 15:29:54 by mparasku         ###   ########.fr       */
+/*   Updated: 2023/07/13 17:53:44 by mparasku         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ void	*supervisor(void *data_ptr)
 	return ((void *)0);
 }
 
-BOOL	thread_init(t_data *data)
+int	thread_init(t_data *data)
 {
 	int			i;
 	pthread_t	supervisor_s;

@@ -1,33 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main_bonus.c                                       :+:      :+:    :+:   */
+/*   phil_act_bonus.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mparasku <mparasku@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/06/21 16:20:50 by mparasku          #+#    #+#             */
-/*   Updated: 2023/07/13 17:04:38 by mparasku         ###   ########.fr       */
+/*   Created: 2023/07/13 15:54:57 by mparasku          #+#    #+#             */
+/*   Updated: 2023/07/13 18:04:35 by mparasku         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/philo_bonus.h"
 
-int	main(int ac, char **av)
+void	take_forks(t_philo *philo)
 {
-	t_data	*data;
+	sem_wait(philo->data->forks);
+	message(TEAKEN_FORK, philo);
+	sem_wait(philo->data->forks);
+	message(TEAKEN_FORK, philo);
+}
 
-	data = NULL;
-	if (!argm_parse(ac, av))
-		return (error_print());
-	data = init(data, av, ac);
-	if (data == NULL)
-		return (-1);
-	data = sem_create(data);
-	if (data == NULL)
-		return (-1);
-	sem_wait(data->stop);
-	ft_process_create(data);
-	sem_wait(data->stop);
-	ft_destroy_all(data);
-	return (0);
+void	put_forks_bonus(t_philo *philo)
+{
+	sem_post(philo->data->forks);
+	sem_post(philo->data->forks);
 }

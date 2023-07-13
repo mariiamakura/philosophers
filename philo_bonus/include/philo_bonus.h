@@ -6,13 +6,12 @@
 /*   By: mparasku <mparasku@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/05 17:18:57 by mparasku          #+#    #+#             */
-/*   Updated: 2023/07/13 14:34:46 by mparasku         ###   ########.fr       */
+/*   Updated: 2023/07/13 17:55:17 by mparasku         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef PHILO_H
-# define PHILO_H
-# define BOOL int
+#ifndef PHILO_BONUS_H
+# define PHILO_BONUS_H
 # define TRUE 1
 # define FALSE 0
 # define TEAKEN_FORK "has taken a fork"
@@ -32,7 +31,6 @@
 # include <sys/stat.h>
 # include <signal.h>
 
-
 typedef struct s_rules
 {
 	int	philo_num;
@@ -50,6 +48,9 @@ typedef struct s_philo
 	int				meal_times;
 	int				eating;
 	long			time_die;
+	sem_t			*forks;
+	sem_t			*message;
+	sem_t			*death;
 	t_rules			*rules;
 }	t_philo;
 
@@ -68,10 +69,10 @@ typedef struct s_data
 
 //error_handle.c
 int			error_print(void);
-BOOL		argm_parse(int ac, char **av);
-BOOL		is_digit(char *str);
-BOOL		philo_num_check(char *av);
-BOOL		is_int(char *av);
+int			argm_parse(int ac, char **av);
+int			is_digit(char *str);
+int			philo_num_check(char *av);
+int			is_int(char *av);
 
 //utils.c
 long long	ft_atoi(const char *str);
@@ -87,13 +88,17 @@ t_data		*alloc_structs(t_data *data);
 t_data		*init_philo(t_data *data);
 
 //sem_init.c
-t_data *sem_create(t_data *data);
-void ft_process_create(t_data *data);
-void	p_routine(t_philo *philo);
-void *supervisor_bonus(void *data_ptr);
+t_data		*sem_create(t_data *data);
+void		ft_process_create(t_data *data);
+void		p_routine(t_philo *philo);
+void		*supervisor_bonus(void *data_ptr);
 
 //freeing.c
-t_data	*ft_error_exit(char *str, t_data *data, int flag);
-void	free_data(t_data *data);
+t_data		*ft_error_exit(char *str, t_data *data, int flag);
+void		free_data(t_data *data);
+
+//phil_act_bonus.c
+void		take_forks(t_philo *philo);
+void		put_forks_bonus(t_philo *philo);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: mparasku <mparasku@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/05 16:52:00 by mparasku          #+#    #+#             */
-/*   Updated: 2023/07/11 15:39:23 by mparasku         ###   ########.fr       */
+/*   Updated: 2023/07/13 17:53:13 by mparasku         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ int	error_print(void)
 	return (-1);
 }
 
-BOOL	is_digit(char *str)
+int	is_digit(char *str)
 {
 	int	i;
 
@@ -34,7 +34,7 @@ BOOL	is_digit(char *str)
 	return (TRUE);
 }
 
-BOOL	philo_num_check(char *av)
+int	philo_num_check(char *av)
 {
 	int	philo_num;
 
@@ -44,7 +44,7 @@ BOOL	philo_num_check(char *av)
 	return (TRUE);
 }
 
-BOOL	is_int(char *av)
+int	is_int(char *av)
 {
 	long long	value;
 
@@ -54,7 +54,7 @@ BOOL	is_int(char *av)
 	return (TRUE);
 }
 
-BOOL	argm_parse(int ac, char **av)
+int	argm_parse(int ac, char **av)
 {
 	int	i;
 

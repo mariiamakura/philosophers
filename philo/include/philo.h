@@ -6,13 +6,12 @@
 /*   By: mparasku <mparasku@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/05 17:18:57 by mparasku          #+#    #+#             */
-/*   Updated: 2023/07/05 17:20:04 by mparasku         ###   ########.fr       */
+/*   Updated: 2023/07/13 17:53:02 by mparasku         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PHILO_H
 # define PHILO_H
-# define BOOL int
 # define TRUE 1
 # define FALSE 0
 # define TEAKEN_FORK "has taken a fork"
@@ -66,10 +65,10 @@ typedef struct s_data
 
 //error_handle.c
 int			error_print(void);
-BOOL		argm_parse(int ac, char **av);
-BOOL		is_digit(char *str);
-BOOL		philo_num_check(char *av);
-BOOL		is_int(char *av);
+int			argm_parse(int ac, char **av);
+int			is_digit(char *str);
+int			philo_num_check(char *av);
+int			is_int(char *av);
 
 //utils.c
 long long	ft_atoi(const char *str);
@@ -89,7 +88,7 @@ void		destroy_mutex(t_data *data);
 void		free_data(t_data *data);
 
 //threads.c
-BOOL		thread_init(t_data *data);
+int			thread_init(t_data *data);
 void		*supervisor(void *data_ptr);
 void		*p_routine(void *philo_ptr);
 
