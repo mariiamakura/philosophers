@@ -6,7 +6,7 @@
 /*   By: mparasku <mparasku@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/12 16:02:01 by mparasku          #+#    #+#             */
-/*   Updated: 2023/07/12 17:46:10 by mparasku         ###   ########.fr       */
+/*   Updated: 2023/07/13 14:35:30 by mparasku         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,16 @@ t_data *sem_create(t_data *data)
 	return (data);
 }
 
+void *supervisor_bonus(void *data_ptr)
+{
+	t_philo	*philo;
+	
+	philo = (t_philo *)data_ptr;
+	sleep(10);
+	sem_post(philo->data->stop);
+	
+}
+
 void	p_routine(t_philo *philo)
 {
 
@@ -47,16 +57,20 @@ void	p_routine(t_philo *philo)
 	// 		philo->data->finished++;
 	// }
 	// return ((void *)0);
+	pthread_t	dead;
 
-	while (TRUE) {
+	philo->time_die = philo->data->rules->time_die + ft_get_time();
+	pthread_create(&dead, NULL, supervisor_bonus, philo);
+	int i = 0;
+	while (i < 100) {
 		sem_wait(philo->data->forks);
 		message(TEAKEN_FORK, philo);
 		sem_wait(philo->data->forks);
 		message(TEAKEN_FORK, philo);
-		sleep(10);
 		sem_post(philo->data->forks);
 		sem_post(philo->data->forks);
-		sleep(10);
+		sleep(1);
+		i++;
 	}
 }
 

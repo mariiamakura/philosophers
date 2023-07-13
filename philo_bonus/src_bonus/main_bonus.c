@@ -6,7 +6,7 @@
 /*   By: mparasku <mparasku@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/21 16:20:50 by mparasku          #+#    #+#             */
-/*   Updated: 2023/07/12 17:34:45 by mparasku         ###   ########.fr       */
+/*   Updated: 2023/07/13 13:39:22 by mparasku         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,9 @@ int	main(int ac, char **av)
 		return (-1);
 	sem_wait(data->stop);
 	ft_process_create(data);
+	sem_wait(data->stop);
+	ft_destroy_all(data);
+	
 	// process_init(data);
 	// destroy_mutex(data);
 	// free_data(data);

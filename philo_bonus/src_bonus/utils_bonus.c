@@ -6,13 +6,30 @@
 /*   By: mparasku <mparasku@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/05 17:05:14 by mparasku          #+#    #+#             */
-/*   Updated: 2023/07/12 17:44:38 by mparasku         ###   ########.fr       */
+/*   Updated: 2023/07/13 13:36:08 by mparasku         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/philo_bonus.h"
 
+void ft_destroy_all(t_data *data)
+{
+	int i;
 
+	i = 0;
+	while (i < data->rules->philo_num)
+	{
+		kill(data->philos[i].pid, SIGKILL);
+		i++;
+	}
+	sem_close(data->death);
+	sem_close(data->message);
+	sem_close(data->stop);
+	sem_close(data->forks);
+	free(data->philos);
+	free(data->rules);
+	free(data);
+}
 
 void	message(char *str, t_philo *philo)
 {

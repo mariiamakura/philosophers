@@ -6,7 +6,7 @@
 /*   By: mparasku <mparasku@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/05 17:18:57 by mparasku          #+#    #+#             */
-/*   Updated: 2023/07/12 17:32:31 by mparasku         ###   ########.fr       */
+/*   Updated: 2023/07/13 14:34:46 by mparasku         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,6 +78,7 @@ long long	ft_atoi(const char *str);
 long		ft_get_time(void);
 int			ft_strcmp(char *s1, char *s2);
 void		message(char *str, t_philo *philo);
+void		ft_destroy_all(t_data *data);
 
 //init.c
 t_data		*init(t_data *data, char **av, int ac);
@@ -89,6 +90,7 @@ t_data		*init_philo(t_data *data);
 t_data *sem_create(t_data *data);
 void ft_process_create(t_data *data);
 void	p_routine(t_philo *philo);
+void *supervisor_bonus(void *data_ptr);
 
 //freeing.c
 t_data	*ft_error_exit(char *str, t_data *data, int flag);
