@@ -6,7 +6,7 @@
 /*   By: mparasku <mparasku@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/05 16:57:01 by mparasku          #+#    #+#             */
-/*   Updated: 2023/07/13 17:53:44 by mparasku         ###   ########.fr       */
+/*   Updated: 2023/07/14 13:57:40 by mparasku         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,8 +71,16 @@ int	thread_init(t_data *data)
 	{
 		if (pthread_create(&data->tid[i], NULL, p_routine, &data->philos[i]))
 			return (FALSE);
-		usleep(1);
-		i++;
+		//usleep(1);
+		i+=2;
+	}
+	i = 1;
+	while (i < data->rules->philo_num)
+	{
+		if (pthread_create(&data->tid[i], NULL, p_routine, &data->philos[i]))
+			return (FALSE);
+		//usleep(1);
+		i+=2;
 	}
 	if (pthread_create(&supervisor_s, NULL, supervisor, data))
 		return (FALSE);

@@ -6,7 +6,7 @@
 /*   By: mparasku <mparasku@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/05 17:15:47 by mparasku          #+#    #+#             */
-/*   Updated: 2023/07/12 15:31:13 by mparasku         ###   ########.fr       */
+/*   Updated: 2023/07/14 13:58:05 by mparasku         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,25 +20,31 @@ void	put_forks(t_philo *philo)
 
 void	take_forks(t_philo *philo)
 {
-	if (philo->id % 2 == 0)
-	{
+
 		pthread_mutex_lock(philo->l_fork);
 		message(TEAKEN_FORK, philo);
 		pthread_mutex_lock(philo->r_fork);
 		message(TEAKEN_FORK, philo);
-	}
-	else
-	{
-		pthread_mutex_lock(philo->r_fork);
-		message(TEAKEN_FORK, philo);
-		if (philo->data->rules->philo_num == 1)
-		{
-			pthread_mutex_unlock(philo->r_fork);
-			return ;
-		}
-		pthread_mutex_lock(philo->l_fork);
-		message(TEAKEN_FORK, philo);
-	}
+	
+	// if (philo->id % 2 == 0)
+	// {
+	// 	pthread_mutex_lock(philo->l_fork);
+	// 	message(TEAKEN_FORK, philo);
+	// 	pthread_mutex_lock(philo->r_fork);
+	// 	message(TEAKEN_FORK, philo);
+	// }
+	// else
+	// {
+	// 	pthread_mutex_lock(philo->r_fork);
+	// 	message(TEAKEN_FORK, philo);
+	// 	if (philo->data->rules->philo_num == 1)
+	// 	{
+	// 		pthread_mutex_unlock(philo->r_fork);
+	// 		return ;
+	// 	}
+	// 	pthread_mutex_lock(philo->l_fork);
+	// 	message(TEAKEN_FORK, philo);
+	// }
 }
 
 void	message(char *str, t_philo *philo)
