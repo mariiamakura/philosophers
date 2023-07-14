@@ -6,7 +6,7 @@
 /*   By: mparasku <mparasku@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/05 17:18:57 by mparasku          #+#    #+#             */
-/*   Updated: 2023/07/13 17:53:02 by mparasku         ###   ########.fr       */
+/*   Updated: 2023/07/14 17:25:40 by mparasku         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,8 @@ typedef struct s_data
 	long			start_time;
 	t_philo			*philos;
 	pthread_mutex_t	*forks;
-	pthread_mutex_t	lock;
+	pthread_mutex_t	write;
+	pthread_mutex_t	d_lock;
 }	t_data;
 
 //error_handle.c
@@ -89,8 +90,9 @@ void		free_data(t_data *data);
 
 //threads.c
 int			thread_init(t_data *data);
-void		*supervisor(void *data_ptr);
+void		*supervisor(void *philo_ptr);
 void		*p_routine(void *philo_ptr);
+void 		*enough_eat(void *data_ptr);
 
 //philo_act.c
 void		eat(t_philo *philo);

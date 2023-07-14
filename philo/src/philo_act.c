@@ -6,7 +6,7 @@
 /*   By: mparasku <mparasku@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/05 17:15:47 by mparasku          #+#    #+#             */
-/*   Updated: 2023/07/14 16:50:48 by mparasku         ###   ########.fr       */
+/*   Updated: 2023/07/14 17:37:18 by mparasku         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,19 +45,20 @@ void	message(char *str, t_philo *philo)
 {
 	long	time;
 
-	pthread_mutex_lock(&philo->data->lock);
+	pthread_mutex_lock(&philo->data->write);
 	time = ft_get_time() - philo->data->start_time;
 	if (philo->data->is_dead == 0)
 		printf("%lu %i %s\n", time, philo->id, str);
 	if (ft_strcmp(DIED, str) == 0 && philo->data->is_dead == TRUE
 		&& philo->eating == FALSE)
 		printf("%lu %i %s\n", time, philo->id, str);
-	pthread_mutex_unlock(&philo->data->lock);
+	pthread_mutex_unlock(&philo->data->write);
 }
 
 void	eat(t_philo *philo)
 {
 	take_forks(philo);
+	pthread_mutex_lock(&philo->lock);
 	if (philo->data->rules->philo_num == 1)
 		return ;
 	philo->eating = TRUE;
@@ -66,6 +67,7 @@ void	eat(t_philo *philo)
 	usleep(philo->data->rules->time_eat * 1000);
 	philo->eating = FALSE;
 	philo->meal_times++;
+	pthread_mutex_unlock(&philo->lock);
 	put_forks(philo);
 	message(SLEEPING, philo);
 	usleep(philo->data->rules->time_sleep * 1000);

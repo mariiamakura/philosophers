@@ -6,7 +6,7 @@
 /*   By: mparasku <mparasku@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/03 14:23:06 by mparasku          #+#    #+#             */
-/*   Updated: 2023/07/05 16:54:28 by mparasku         ###   ########.fr       */
+/*   Updated: 2023/07/14 17:01:49 by mparasku         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,10 @@ t_data	*alloc_structs(t_data *data)
 		return (NULL);
 	data->philos = malloc(sizeof(t_philo) * data->rules->philo_num);
 	if (data->philos == NULL)
+		return (NULL);
+	if (pthread_mutex_init(&data->write, NULL))
+		return (NULL);
+	if (pthread_mutex_init(&data->d_lock, NULL))
 		return (NULL);
 	return (data);
 }
@@ -54,8 +58,7 @@ t_data	*init_forks(t_data *data)
 	int	i;
 
 	i = 0;
-	if (pthread_mutex_init(&data->lock, NULL))
-		return (NULL);
+		
 	while (i < data->rules->philo_num)
 	{
 		if (pthread_mutex_init(&data->forks[i], NULL) != 0)
