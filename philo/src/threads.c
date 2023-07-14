@@ -6,28 +6,44 @@
 /*   By: mparasku <mparasku@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/05 16:57:01 by mparasku          #+#    #+#             */
-/*   Updated: 2023/07/14 16:45:28 by mparasku         ###   ########.fr       */
+/*   Updated: 2023/07/14 19:27:52 by mparasku         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/philo.h"
+
+void	routine_2(t_philo *philo)
+{
+	while (philo->data->is_dead == FALSE)
+	{
+		eat(philo);
+		pthread_mutex_lock(&philo->lock);
+		if (philo->data->rules->philo_num == 1)
+		{
+			pthread_mutex_unlock(&philo->lock);
+			return ;
+		}
+		pthread_mutex_unlock(&philo->lock);
+		message(THINKING, philo);
+		usleep(1000);
+		pthread_mutex_lock(&philo->data->lock);
+		if (philo->meal_times == philo->data->rules->req_eat)
+		{
+			philo->data->finished++;
+		}
+		pthread_mutex_unlock(&philo->data->lock);
+	}
+}
 
 void	*p_routine(void *philo_ptr)
 {
 	t_philo	*philo;
 
 	philo = (t_philo *) philo_ptr;
+	pthread_mutex_lock(&philo->lock);
 	philo->time_die = philo->data->rules->time_die + ft_get_time();
-	while (philo->data->is_dead == FALSE)
-	{
-		eat(philo);
-		if (philo->data->rules->philo_num == 1)
-			return ((void *)0);
-		message(THINKING, philo);
-		usleep(10000);
-		if (philo->meal_times == philo->data->rules->req_eat)
-			philo->data->finished++;
-	}
+	pthread_mutex_unlock(&philo->lock);
+	routine_2(philo);
 	return ((void *)0);
 }
 
@@ -38,23 +54,24 @@ void	*supervisor(void *data_ptr)
 
 	i = 0;
 	data = (t_data *)data_ptr;
-	while (data->is_dead == FALSE)
+	while (TRUE)
 	{
 		i = 0;
 		while (i < data->rules->philo_num)
 		{
-			if (ft_get_time() >= data->philos[i].time_die)
-			{
-				data->is_dead = TRUE;
-				message(DIED, &data->philos[i]);
+			if (check_death(data, i) == TRUE)
 				break ;
-			}
-			if (data->finished == data->rules->philo_num)
-			{
-				data->is_dead = TRUE;
+			if (eaten_all(data, i) == TRUE)
 				break ;
-			}
+			i++;
 		}
+		pthread_mutex_lock(&data->philos[0].data->lock);
+		if (data->philos[0].data->is_dead)
+		{
+			pthread_mutex_unlock(&data->philos[0].data->lock);
+			break ;
+		}
+		pthread_mutex_unlock(&data->philos[0].data->lock);
 	}
 	return ((void *)0);
 }
@@ -74,6 +91,7 @@ int	thread_init(t_data *data)
 			return (FALSE);
 		i++;
 	}
+	usleep(1000);
 	if (pthread_create(&supervisor_s, NULL, supervisor, data))
 		return (FALSE);
 	i = 0;

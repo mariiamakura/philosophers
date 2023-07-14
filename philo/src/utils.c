@@ -6,7 +6,7 @@
 /*   By: mparasku <mparasku@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/05 17:05:14 by mparasku          #+#    #+#             */
-/*   Updated: 2023/07/05 17:05:50 by mparasku         ###   ########.fr       */
+/*   Updated: 2023/07/14 19:28:08 by mparasku         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,4 +54,36 @@ long long	ft_atoi(const char *str)
 		i++;
 	}
 	return (number * neg);
+}
+
+int	check_death(t_data *data, int i)
+{
+	pthread_mutex_lock(&data->philos[i].lock);
+	if (ft_get_time() >= data->philos[i].time_die)
+	{
+		if (!data->philos[i].data->is_dead)
+		{
+			pthread_mutex_lock(&data->philos[i].data->lock);
+			data->philos[i].data->is_dead = TRUE;
+			pthread_mutex_unlock(&data->philos[i].data->lock);
+			message(DIED, &data->philos[i]);
+			pthread_mutex_unlock(&data->philos[i].lock);
+			return (TRUE);
+		}
+	}
+	pthread_mutex_unlock(&data->philos[i].lock);
+	return (FALSE);
+}
+
+int	eaten_all(t_data *data, int i)
+{
+	pthread_mutex_lock(&data->philos[i].data->lock);
+	if (data->philos[i].data->finished == data->rules->philo_num)
+	{
+		data->philos[i].data->is_dead = TRUE;
+		pthread_mutex_unlock(&data->philos[i].data->lock);
+		return (TRUE);
+	}
+	pthread_mutex_unlock(&data->philos[i].data->lock);
+	return (FALSE);
 }

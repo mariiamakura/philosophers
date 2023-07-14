@@ -6,7 +6,7 @@
 /*   By: mparasku <mparasku@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/05 17:15:47 by mparasku          #+#    #+#             */
-/*   Updated: 2023/07/14 16:50:48 by mparasku         ###   ########.fr       */
+/*   Updated: 2023/07/14 18:31:16 by mparasku         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,7 @@ void	message(char *str, t_philo *philo)
 void	eat(t_philo *philo)
 {
 	take_forks(philo);
+	pthread_mutex_lock(&philo->lock);
 	if (philo->data->rules->philo_num == 1)
 		return ;
 	philo->eating = TRUE;
@@ -66,6 +67,7 @@ void	eat(t_philo *philo)
 	usleep(philo->data->rules->time_eat * 1000);
 	philo->eating = FALSE;
 	philo->meal_times++;
+	pthread_mutex_unlock(&philo->lock);
 	put_forks(philo);
 	message(SLEEPING, philo);
 	usleep(philo->data->rules->time_sleep * 1000);

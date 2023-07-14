@@ -6,7 +6,7 @@
 /*   By: mparasku <mparasku@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/05 17:18:57 by mparasku          #+#    #+#             */
-/*   Updated: 2023/07/13 17:53:02 by mparasku         ###   ########.fr       */
+/*   Updated: 2023/07/14 19:25:10 by mparasku         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,8 @@ int			is_int(char *av);
 long long	ft_atoi(const char *str);
 long		ft_get_time(void);
 int			ft_strcmp(char *s1, char *s2);
+int			check_death(t_data *data, int i);
+int			eaten_all(t_data *data, int i);
 
 //init.c
 t_data		*init(t_data *data, char **av, int ac);
@@ -91,6 +93,7 @@ void		free_data(t_data *data);
 int			thread_init(t_data *data);
 void		*supervisor(void *data_ptr);
 void		*p_routine(void *philo_ptr);
+void		routine_2(t_philo *philo);
 
 //philo_act.c
 void		eat(t_philo *philo);

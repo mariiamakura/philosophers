@@ -6,7 +6,7 @@
 /*   By: mparasku <mparasku@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/12 16:02:01 by mparasku          #+#    #+#             */
-/*   Updated: 2023/07/14 14:20:51 by mparasku         ###   ########.fr       */
+/*   Updated: 2023/07/14 19:30:18 by mparasku         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,6 +78,7 @@ void	p_routine(t_philo *philo)
 		message(SLEEPING, philo);
 		usleep(philo->data->rules->time_sleep * 1000);
 		message(THINKING, philo);
+		usleep(1000);
 	}
 }
 
