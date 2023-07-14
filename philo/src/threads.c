@@ -6,7 +6,7 @@
 /*   By: mparasku <mparasku@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/05 16:57:01 by mparasku          #+#    #+#             */
-/*   Updated: 2023/07/13 17:53:44 by mparasku         ###   ########.fr       */
+/*   Updated: 2023/07/14 16:45:28 by mparasku         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,9 +21,10 @@ void	*p_routine(void *philo_ptr)
 	while (philo->data->is_dead == FALSE)
 	{
 		eat(philo);
-		message(THINKING, philo);
 		if (philo->data->rules->philo_num == 1)
 			return ((void *)0);
+		message(THINKING, philo);
+		usleep(10000);
 		if (philo->meal_times == philo->data->rules->req_eat)
 			philo->data->finished++;
 	}
@@ -71,7 +72,6 @@ int	thread_init(t_data *data)
 	{
 		if (pthread_create(&data->tid[i], NULL, p_routine, &data->philos[i]))
 			return (FALSE);
-		usleep(1);
 		i++;
 	}
 	if (pthread_create(&supervisor_s, NULL, supervisor, data))
