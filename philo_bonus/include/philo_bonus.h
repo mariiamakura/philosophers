@@ -6,7 +6,7 @@
 /*   By: mparasku <mparasku@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/05 17:18:57 by mparasku          #+#    #+#             */
-/*   Updated: 2023/07/13 17:55:17 by mparasku         ###   ########.fr       */
+/*   Updated: 2023/07/17 16:45:10 by mparasku         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,6 +92,7 @@ t_data		*sem_create(t_data *data);
 void		ft_process_create(t_data *data);
 void		p_routine(t_philo *philo);
 void		*supervisor_bonus(void *data_ptr);
+t_data		*open_sem_philo(t_data *data);
 
 //freeing.c
 t_data		*ft_error_exit(char *str, t_data *data, int flag);

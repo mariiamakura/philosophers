@@ -6,7 +6,7 @@
 /*   By: mparasku <mparasku@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/05 17:18:57 by mparasku          #+#    #+#             */
-/*   Updated: 2023/07/14 19:25:10 by mparasku         ###   ########.fr       */
+/*   Updated: 2023/07/17 15:59:12 by mparasku         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,6 +94,7 @@ int			thread_init(t_data *data);
 void		*supervisor(void *data_ptr);
 void		*p_routine(void *philo_ptr);
 void		routine_2(t_philo *philo);
+int			is_dead_not(t_data *data);
 
 //philo_act.c
 void		eat(t_philo *philo);

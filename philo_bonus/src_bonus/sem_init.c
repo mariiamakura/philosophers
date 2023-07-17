@@ -6,11 +6,25 @@
 /*   By: mparasku <mparasku@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/12 16:02:01 by mparasku          #+#    #+#             */
-/*   Updated: 2023/07/14 19:30:18 by mparasku         ###   ########.fr       */
+/*   Updated: 2023/07/17 16:44:36 by mparasku         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/philo_bonus.h"
+
+t_data	*open_sem_philo(t_data *data)
+{
+	int	i;
+
+	i = 0;
+	while (i < data->rules->philo_num)
+	{
+		data->philos[i].forks = sem_open("forks", 0);
+		data->philos[i].message = sem_open("message", 0);
+		i++;
+	}
+	return (data);
+}
 
 t_data	*sem_create(t_data *data)
 {

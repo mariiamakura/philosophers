@@ -6,7 +6,7 @@
 /*   By: mparasku <mparasku@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/03 14:23:06 by mparasku          #+#    #+#             */
-/*   Updated: 2023/07/14 14:06:17 by mparasku         ###   ########.fr       */
+/*   Updated: 2023/07/17 16:44:45 by mparasku         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,8 +60,6 @@ t_data	*init_philo(t_data *data)
 		data->philos[i].meal_times = 0;
 		data->philos[i].eating = FALSE;
 		data->philos[i].pid = -1;
-		data->philos[i].forks = sem_open("forks", 0);
-		data->philos[i].message = sem_open("message", 0);
 		i++;
 	}
 	return (data);
